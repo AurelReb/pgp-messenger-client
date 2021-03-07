@@ -20,16 +20,16 @@ export class Register extends React.Component {
               <input type="text" name="username" placeholder="username" />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input type="text" name="email" placeholder="xample@email.com" />
-            </div>
-            <div className="form-group">
               <label htmlFor="password">Password</label>
               <input type="text" name="password" placeholder="password" />
             </div>
             <div className="form-group">
+              <label htmlFor="confirm">Confirm password</label>
+              <input type="text" name="confirm" placeholder="password" />
+            </div>
+            <div className="pub-key">
               <label htmlFor="public-key">PGP public Key</label>
-              <input type="text" name="public-key" placeholder="public-key" />
+              <textarea type="text" name="public-key" placeholder="public-key" />
             </div>
           </div>
         </div>

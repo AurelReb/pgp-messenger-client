@@ -40,14 +40,31 @@
 
 .login{
   width: 27em;
-  height: 40em;
-  min-height: 44em;
+  height: 47em;
+  min-height: 30em;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 55px;
   position: relative;
   z-index: 99;
+  //Button
+  .btn {
+    font-size: 21px;
+    padding: 5px 20px;
+    border: 0;
+    background-color: #e014b4b2;
+    color: #fff;
+    border-radius: 3px;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+    &:hover {
+      background-color: #e014b4b2;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
   .container {
     display: flex;
     justify-content: center;
@@ -100,23 +117,5 @@
       margin-right: 3em;
       margin-left: 3em;
     }
-  }
-}
-
-//Button
-.btn {
-  font-size: 21px;
-  padding: 5px 20px;
-  border: 0;
-  background-color: #e014b4b2;
-  color: #fff;
-  border-radius: 3px;
-  transition: all 250ms ease-in-out;
-  cursor: pointer;
-  &:hover {
-    background-color: #e014b4b2;
-  }
-  &:focus {
-    outline: none;
   }
 }
