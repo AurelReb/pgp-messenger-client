@@ -101,11 +101,13 @@ function Login() {
         variant="outlined"
         color="secondary"
         />
-        <TextField 
-        required id="Password"
-        label="Password"
-        variant="outlined"
-        color="secondary"
+        <TextField
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+          variant="outlined"
+          color="secondary"
         />
         <Button
         variant="contained"
@@ -151,17 +153,21 @@ function Register() {
         variant="outlined"
         color="secondary"
         />
-        <TextField 
-        required id="Password"
-        label="Password"
-        variant="outlined"
-        color="secondary"
+        <TextField
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+          variant="outlined"
+          color="secondary"
         />
-        <TextField 
-        required id="Password"
-        label="Confirm Password"
-        variant="outlined"
-        color="secondary"
+        <TextField
+          id="outlined-password-input"
+          label="Confirm Password"
+          type="password"
+          autoComplete="current-password"
+          variant="outlined"
+          color="secondary"
         />
         <TextField 
         required id="pubKey"
