@@ -27,6 +27,11 @@ export default function Register() {
     let path = "/";
     history.push(path);
   };
+
+  const AccountRoute = () => {
+    let path = "/account";
+    history.push(path);
+  };
   return (
     <React.Fragment>
       <header className="App-header">
@@ -89,9 +94,8 @@ export default function Register() {
                   variant="contained"
                   color="secondary"
                   className={classes.button}
-                  endIcon={
-                    <ArrowForwardIosRounded>send</ArrowForwardIosRounded>
-                  }
+                  endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+                  onClick={AccountRoute}
                 >
                   Register
                 </Button>

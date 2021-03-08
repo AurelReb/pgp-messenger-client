@@ -5,6 +5,7 @@ import Register from "./components/register";
 import Home from "./components/home";
 import { makeStyles } from "@material-ui/core/styles";
 import logo from "./logo.svg";
+import Account from "./components/Account";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -27,6 +28,9 @@ export default function App() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/account">
+            <Account />
           </Route>
           <Route path="/">
             <Home />
