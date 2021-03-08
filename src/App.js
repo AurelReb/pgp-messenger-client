@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import './App.css';
 import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
 import {
   BrowserRouter as Router,
@@ -18,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  logo: {
+    maxWidth: 100
+  }
 }));
 
 export default function App() {
@@ -57,8 +59,8 @@ function Home() {
     history.push(path);
   }
   return(
-  <header className="App-header">
-    <img src={logo} className = "App-logo" alt="logo"/>
+  <header>
+    <img src={logo} className={classes.logo} alt="logo"/>
     <Button
         variant="contained"
         color="secondary"
