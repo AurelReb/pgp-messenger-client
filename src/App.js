@@ -11,19 +11,24 @@ import {
   Switch,
   Route,
   useHistory,
-} from "react-router-dom";
+} from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
   logo: {
-    maxWidth: 100
-  }
+    maxWidth: 100,
+  },
+  center: {
+    textAlign: 'center',
+  },
 }));
 
 export default function App() {
   return (
+    <Container maxWidth="md">
       <Router>
         <Switch>
           <Route path="/register">
@@ -36,37 +41,35 @@ export default function App() {
             <Home />
           </Route>
         </Switch>
-    </Router>
-    );
+      </Router>
+    </Container>
+  );
 }
 
-
-
 function Home() {
-
   const classes = useStyles();
 
   const history = useHistory();
 
-  history.push('/home')
+  history.push('/home');
 
   const LoginRoute = () => {
     let path = '/login';
     history.push(path);
-  }
+  };
   const RegisterRoute = () => {
     let path = '/register';
     history.push(path);
-  }
-  return(
-  <header>
-    <img src={logo} className={classes.logo} alt="logo"/>
-    <Button
+  };
+  return (
+    <header>
+      <img src={logo} className={classes.logo} alt="logo" />
+      <Button
         variant="contained"
         color="secondary"
         className={classes.button}
         onClick={LoginRoute}
-        >
+      >
         Login
       </Button>
       <Button
@@ -74,11 +77,11 @@ function Home() {
         color="secondary"
         className={classes.button}
         onClick={RegisterRoute}
-        >
-          Register
+      >
+        Register
       </Button>
     </header>
-    );
+  );
 }
 
 function Login() {
@@ -89,46 +92,47 @@ function Login() {
   const BackRoute = () => {
     let path = '/';
     history.push(path);
-  }
+  };
   return (
     <React.Fragment>
       <header className="App-header">
-      <CssBaseline />
-        <img src={logo} className = "App-logo" alt="logo"/>
+        <CssBaseline />
+        <img src={logo} className={classes.logo} alt="logo" />
         <Container maxWidth="sm">
-        <TextField 
-        onclick="console.log('clicked');"
-        required id="Username"
-        label="Username"
-        variant="outlined"
-        color="secondary"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-          color="secondary"
-        />
-        <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        startIcon={<ArrowBack>send</ArrowBack>}
-        onClick={BackRoute}
-        >
-        Back
-        </Button>
-        <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-        >
-        Login
-        </Button>
-      </Container>
+          <TextField
+            onclick="console.log('clicked');"
+            required
+            id="Username"
+            label="Username"
+            variant="outlined"
+            color="secondary"
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+            color="secondary"
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<ArrowBack>send</ArrowBack>}
+            onClick={BackRoute}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+          >
+            Login
+          </Button>
+        </Container>
       </header>
     </React.Fragment>
   );
@@ -142,67 +146,82 @@ function Register() {
   const BackRoute = () => {
     let path = '/';
     history.push(path);
-  }
+  };
   return (
     <React.Fragment>
       <header className="App-header">
-      <CssBaseline />
-        <img src={logo} className = "App-logo" alt="logo"/>
-        <Container maxWidth="sm">
-        <TextField 
-        required id="Username"
-        label="Username"
-        variant="outlined"
-        color="secondary"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-          color="secondary"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Confirm Password"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-          color="secondary"
-        />
-        <TextField 
-        required id="pubKey"
-        label="Pgp Public Key"
-        variant="outlined"
-        color="secondary"
-        multiline = "true"
-        />
-        <TextField 
-        required id="privKey"
-        label="Pgp Private Key"
-        variant="outlined"
-        color="secondary"
-        multiline = "true"
-        />
-        <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        startIcon={<ArrowBack>send</ArrowBack>}
-        onClick={BackRoute}
-        >
-        Back
-        </Button>
-        <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-        >
-        Register
-      </Button>
-      </Container>
+        <CssBaseline />
+        <img src={logo} className={classes.logo} alt="logo" />
+        <Grid container direction="row" spacing={2}>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <TextField
+              required
+              id="Username"
+              label="Username"
+              variant="outlined"
+              color="secondary"
+            />
+          </Grid>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              variant="outlined"
+              color="secondary"
+            />
+          </Grid>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <TextField
+              id="outlined-password-input"
+              label="Confirm Password"
+              type="password"
+              autoComplete="current-password"
+              variant="outlined"
+              color="secondary"
+            />
+          </Grid>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <TextField
+              required
+              id="pubKey"
+              label="Pgp Public Key"
+              variant="outlined"
+              color="secondary"
+              multiline="true"
+            />
+          </Grid>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <TextField
+              required
+              id="privKey"
+              label="Pgp Private Key"
+              variant="outlined"
+              color="secondary"
+              multiline="true"
+            />
+          </Grid>
+          <Grid item xs={12} classes={{ root: classes.center }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              startIcon={<ArrowBack>send</ArrowBack>}
+              onClick={BackRoute}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+            >
+              Register
+            </Button>
+          </Grid>
+        </Grid>
       </header>
     </React.Fragment>
   );
