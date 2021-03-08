@@ -11,7 +11,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+  useHistory,
 } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,21 @@ export default function App() {
 
 
 function Home() {
+
   const classes = useStyles();
+
+  const history = useHistory();
+
+  history.push('/home')
+
+  const LoginRoute = () => {
+    let path = '/login';
+    history.push(path);
+  }
+  const RegisterRoute = () => {
+    let path = '/register';
+    history.push(path);
+  }
   return(
   <header className="App-header">
     <img src={logo} className = "App-logo" alt="logo"/>
@@ -49,15 +63,17 @@ function Home() {
         variant="contained"
         color="secondary"
         className={classes.button}
+        onClick={LoginRoute}
         >
-        <Link to="/login">Login</Link>
+        Login
       </Button>
       <Button
         variant="contained"
         color="secondary"
         className={classes.button}
+        onClick={RegisterRoute}
         >
-        <Link to="/register">Register</Link>
+          Register
       </Button>
     </header>
     );
@@ -65,6 +81,13 @@ function Home() {
 
 function Login() {
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const BackRoute = () => {
+    let path = '/';
+    history.push(path);
+  }
   return (
     <React.Fragment>
       <header className="App-header">
@@ -89,8 +112,9 @@ function Login() {
         color="secondary"
         className={classes.button}
         startIcon={<ArrowBack>send</ArrowBack>}
+        onClick={BackRoute}
         >
-        <Link to="/">Back</Link>
+        Back
         </Button>
         <Button
         variant="contained"
@@ -108,6 +132,13 @@ function Login() {
 
 function Register() {
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const BackRoute = () => {
+    let path = '/';
+    history.push(path);
+  }
   return (
     <React.Fragment>
       <header className="App-header">
@@ -151,8 +182,9 @@ function Register() {
         color="secondary"
         className={classes.button}
         startIcon={<ArrowBack>send</ArrowBack>}
+        onClick={BackRoute}
         >
-        <Link to="/">Back</Link>
+        Back
         </Button>
         <Button
         variant="contained"
