@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+
+export default function LoginPage() {
   const classes = useStyles();
 
   const history = useHistory();
@@ -27,6 +28,7 @@ export default function Login() {
     let path = "/";
     history.push(path);
   };
+
   return (
     <React.Fragment>
       <CssBaseline />

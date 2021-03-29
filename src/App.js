@@ -1,11 +1,27 @@
-import Container from "@material-ui/core/Container";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./components/login";
-import Register from "./components/register";
-import Home from "./components/home";
-import { makeStyles } from "@material-ui/core/styles";
 import logo from "./logo.svg";
+import {
+  BrowserRouter as Router,
+  Switch as RouteSwitch,
+  Route,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+import Login from "./containers/Login";
+import Home from "./components/home";
 import Account from "./components/Account";
+
+import StateProvider, {
+  useDispatch,
+  useTrackedState,
+  toggleDarkTheme,
+} from "./config/store";
+import { getMuiThemeConfig } from "./config/theming";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -13,30 +29,73 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App() {
-  const classes = useStyles();
+function AppRouter() {
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const { darkTheme } = useTrackedState();
+
+  useEffect(() => {
+    if (pathname.substr(-1) !== "/") history.replace(`${pathname}/`);
+  }, [pathname, history]);
 
   return (
-    <Container maxWidth="md">
+    <ThemeProvider theme={getMuiThemeConfig(darkTheme)}>
+      <CssBaseline />
+      <RouteSwitch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/register">
+          <Login />
+        </Route>
+        <Route exact path="/account">
+          <Account />
+        </Route>
+      </RouteSwitch>
+    </ThemeProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <StateProvider>
+      <Router>
+        <AppRouter />
+      </Router>
+    </StateProvider>
+  );
+}
+
+function Test() {
+  const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const { darkTheme } = useTrackedState();
+
+  const handleToggleDarkTheme = () => {
+    dispatch(toggleDarkTheme);
+  };
+  return (
+    <>
       <header>
         <img src={logo} className={classes.logo} alt="logo" />
       </header>
-      <Router>
-        <Switch>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </Router>
-    </Container>
+      <footer>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={darkTheme}
+              onChange={handleToggleDarkTheme}
+              name="checkedA"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+            />
+          }
+          label="Dark Theme"
+        />
+      </footer>
+    </>
   );
 }

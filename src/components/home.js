@@ -19,8 +19,6 @@ export default function Home() {
 
   const history = useHistory();
 
-  history.push("/home");
-
   const LoginRoute = () => {
     let path = "/login";
     history.push(path);
