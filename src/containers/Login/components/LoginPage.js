@@ -9,6 +9,9 @@ import { useDispatch, getToken, useSelector } from "../../../config/store";
 import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    width: 110,
+  },
   layout: {
     width: "auto",
     display: "block", // Fix IE11 issue.
@@ -33,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   header_text: {
+    marginBottom: theme.spacing(5),
     marginTop: theme.spacing(5),
   },
 
@@ -52,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: theme.palette.error.main,
+  },
+  right: {
+    textAlign: "right",
   },
 }));
 
@@ -75,7 +82,7 @@ const LoginPage = () => {
   }, [error, mounted, history]);
 
   const submit = () => {
-    dispatch(getToken(username,password));
+    dispatch(getToken(username, password));
   };
 
   const handleChangeUsername = (e) => {
@@ -124,7 +131,7 @@ const LoginPage = () => {
                 value={password}
               />
             </Grid>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+            <Grid item xs={6} classes={{ root: classes.right }}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -134,16 +141,19 @@ const LoginPage = () => {
               >
                 Back
               </Button>
+            </Grid>
+            <Grid item xs={6}>
               <Button
                 variant="contained"
                 color="secondary"
                 onClick={submit}
+                className={classes.button}
                 endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
               >
                 Login
               </Button>
-              <div className = {classes.error} >{error}</div>
             </Grid>
+            <div className={classes.error}>{error}</div>
           </Grid>
           <Link to="register" className={classes.register}>
             <center>

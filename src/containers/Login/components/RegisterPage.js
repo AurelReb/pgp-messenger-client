@@ -8,6 +8,9 @@ import { Grid, makeStyles, TextField } from "@material-ui/core";
 import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    width: 130,
+  },
   layout: {
     width: "auto",
     display: "block", // Fix IE11 issue.
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   header_text: {
+    marginBottom: theme.spacing(5),
     marginTop: theme.spacing(5),
   },
 
@@ -54,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
   login: {
     marginTop: theme.spacing(3),
     color: theme.palette.primary.main,
+  },
+  right: {
+    textAlign: "right",
+  },
+  left: {
+    textAlign: "left",
   },
 }));
 
@@ -129,7 +139,7 @@ function RegisterPage(props) {
                 multiline="true"
               />
             </Grid>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+            <Grid item xs={6} classes={{ root: classes.right }}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -139,6 +149,8 @@ function RegisterPage(props) {
               >
                 Back
               </Button>
+            </Grid>
+            <Grid item xs={6} classes={{ root: classes.left }}>
               <Button
                 variant="contained"
                 color="secondary"
