@@ -22,6 +22,7 @@ import StateProvider, {
 } from "./config/store";
 import { getMuiThemeConfig } from "./config/theming";
 import { useEffect } from "react";
+import UserSettings from "./containers/Settings/Index";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -54,6 +55,9 @@ function AppRouter() {
         <Route exact path="/account">
           <Account />
         </Route>
+        <Route exact path="/settings">
+          <UserSettings />
+        </Route>
       </RouteSwitch>
     </ThemeProvider>
   );
@@ -66,36 +70,5 @@ export default function App() {
         <AppRouter />
       </Router>
     </StateProvider>
-  );
-}
-
-function Test() {
-  const classes = useStyles();
-
-  const dispatch = useDispatch();
-  const { darkTheme } = useTrackedState();
-
-  const handleToggleDarkTheme = () => {
-    dispatch(toggleDarkTheme);
-  };
-  return (
-    <>
-      <header>
-        <img src={logo} className={classes.logo} alt="logo" />
-      </header>
-      <footer>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={darkTheme}
-              onChange={handleToggleDarkTheme}
-              name="checkedA"
-              inputProps={{ "aria-label": "secondary checkbox" }}
-            />
-          }
-          label="Dark Theme"
-        />
-      </footer>
-    </>
   );
 }
