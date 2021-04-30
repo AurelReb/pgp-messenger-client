@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
+import userApi from "../../../api/userApi"
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -22,6 +23,29 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const classes = useStyles();
 
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const submit = async () => {
+    try {
+      const {data} = await userApi.getUserToken(username, password)
+      sessionStorage.access_token = data.access;
+      sessionStorage.refresh_token = data.refresh;
+    }
+    catch (error) {
+      setError("invalid login")
+    }
+  }
+
+  const handleChangeUsername = e => {
+    setUsername(e.target.value)
+  }
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value)
+  }
+
   const history = useHistory();
 
   const BackRoute = () => {
@@ -30,7 +54,7 @@ export default function LoginPage() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <Container maxWidth="sm">
         <Paper elevation={3}>
@@ -38,21 +62,22 @@ export default function LoginPage() {
             <Grid item xs={12} classes={{ root: classes.center }}>
               <TextField
                 required
-                id="Username"
                 label="Username"
                 variant="outlined"
                 color="secondary"
+                onChange={handleChangeUsername}
+                value={username}
               />
             </Grid>
             <Grid item xs={12} classes={{ root: classes.center }}>
               <TextField
                 required
-                id="outlined-password-input"
                 label="Password"
                 type="password"
-                autoComplete="current-password"
                 variant="outlined"
                 color="secondary"
+                onChange={handleChangePassword}
+                value={password}
               />
             </Grid>
             <Grid item xs={12} classes={{ root: classes.center }}>
@@ -69,14 +94,16 @@ export default function LoginPage() {
                 variant="contained"
                 color="secondary"
                 className={classes.button}
+                onClick={submit}
                 endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
               >
                 Login
               </Button>
+              {error}
             </Grid>
           </Grid>
         </Paper>
       </Container>
-    </React.Fragment>
+    </>
   );
 }
