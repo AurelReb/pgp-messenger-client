@@ -1,7 +1,7 @@
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 function Login() {
   return (

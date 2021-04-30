@@ -14,6 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Login from "./containers/Login";
 import Home from "./components/home";
 import Account from "./components/Account";
+import Conversations from "./containers/Conversations";
 
 import StateProvider, {
   useDispatch,
@@ -47,6 +48,9 @@ function AppRouter() {
         </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/conversations">
+          <Conversations />
         </Route>
         <Route exact path="/register">
           <Login />

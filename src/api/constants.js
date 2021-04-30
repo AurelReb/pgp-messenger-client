@@ -1,6 +1,6 @@
 const ENDPOINT = `${process.env.API_ENDPOINT || "http://localhost:8000"}`;
 
-export const CONVERSATION_API_URL = `${ENDPOINT}/conversation/`;
+export const CONVERSATIONS_API_URL = `${ENDPOINT}/conversations/`;
 
 export const USER_API_URL = `${ENDPOINT}/user/`;
 
