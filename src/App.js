@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import {
   BrowserRouter as Router,
   Switch as RouteSwitch,
@@ -7,26 +7,26 @@ import {
   useLocation,
 } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+//import { makeStyles } from "@material-ui/core/styles";
+//import Switch from "@material-ui/core/Switch";
+//import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import Login from "./containers/Login";
 import Home from "./components/home";
 
 import StateProvider, {
-  useDispatch,
+  //useDispatch,
   useTrackedState,
-  toggleDarkTheme,
+  //toggleDarkTheme,
 } from "./config/store";
 import { getMuiThemeConfig } from "./config/theming";
 import { useEffect } from "react";
 
-const useStyles = makeStyles((theme) => ({
+/*const useStyles = makeStyles((theme) => ({
   logo: {
     maxWidth: 100,
   },
-}));
+}));*/
 
 function AppRouter() {
   const history = useHistory();
@@ -65,7 +65,7 @@ export default function App() {
   );
 }
 
-function Test() {
+/*function Test() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -94,4 +94,4 @@ function Test() {
       </footer>
     </>
   );
-}
+}*/
