@@ -10,7 +10,7 @@ import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    width: 110,
+    width: 130,
   },
   layout: {
     width: "auto",
@@ -52,13 +52,14 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
   center: {
+    marginBottom: theme.spacing(2),
     textAlign: "center",
   },
   error: {
     color: theme.palette.error.main,
   },
-  right: {
-    textAlign: "right",
+  left: {
+    marginLeft: theme.spacing(10),
   },
 }));
 
@@ -101,6 +102,19 @@ const LoginPage = () => {
   return (
     <div>
       <CssBaseline />
+      <header>
+        <Grid item xs={6} className={classes.left}>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<ArrowBack>send</ArrowBack>}
+            onClick={handleBackRoute}
+          >
+            Back
+          </Button>
+        </Grid>
+      </header>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
@@ -131,30 +145,19 @@ const LoginPage = () => {
                 value={password}
               />
             </Grid>
-            <Grid item xs={6} classes={{ root: classes.right }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                startIcon={<ArrowBack>send</ArrowBack>}
-                onClick={handleBackRoute}
-              >
-                Back
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={submit}
-                className={classes.button}
-                endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-              >
-                Login
-              </Button>
-            </Grid>
-            <div className={classes.error}>{error}</div>
           </Grid>
+          <Grid item xs={6} classes={{ root: classes.center }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={submit}
+              className={classes.button}
+              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+            >
+              Login
+            </Button>
+          </Grid>
+          <div className={classes.error}>{error}</div>
           <Link to="register" className={classes.register}>
             <center>
               Have not an account yet? Register <br />

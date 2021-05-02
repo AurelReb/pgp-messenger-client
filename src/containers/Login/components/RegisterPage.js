@@ -53,18 +53,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   center: {
+    marginBottom: theme.spacing(1),
     textAlign: "center",
   },
   login: {
     marginTop: theme.spacing(3),
     color: theme.palette.primary.main,
   },
-  right: {
-    textAlign: "right",
-  },
-  left: {
-    textAlign: "left",
-  },
+  left:{
+    marginLeft: theme.spacing(10)
+  }
 }));
 
 function RegisterPage(props) {
@@ -89,6 +87,19 @@ function RegisterPage(props) {
   return (
     <div>
       <CssBaseline />
+      <header>
+        <Grid item xs={6} className = {classes.left}>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<ArrowBack>send</ArrowBack>}
+            onClick={BackRoute}
+          >
+            Back
+          </Button>
+        </Grid>
+      </header>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
@@ -139,28 +150,17 @@ function RegisterPage(props) {
                 multiline="true"
               />
             </Grid>
-            <Grid item xs={6} classes={{ root: classes.right }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                startIcon={<ArrowBack>send</ArrowBack>}
-                onClick={BackRoute}
-              >
-                Back
-              </Button>
-            </Grid>
-            <Grid item xs={6} classes={{ root: classes.left }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-                onClick={AccountRoute}
-              >
-                Register
-              </Button>
-            </Grid>
+          </Grid>
+          <Grid item xs={6} classes={{ root: classes.center }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+              onClick={AccountRoute}
+            >
+              Register
+            </Button>
           </Grid>
           <Link to="login" className={classes.login}>
             <center>
