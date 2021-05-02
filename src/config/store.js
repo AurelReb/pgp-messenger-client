@@ -32,6 +32,8 @@ const reducer = (state, action) => {
 
       case GET_CONVERSATIONS_SUCCESS:
         draft.conversations = action.conversations;
+        if(action.conversations.length)
+          draft.currentConversation = action.conversations[0].id;
         break;
 
       case GET_CONVERSATIONS_FAILURE:
