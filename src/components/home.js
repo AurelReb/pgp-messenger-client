@@ -28,7 +28,7 @@ export default function Home() {
             <Link to="/login" style={{ textDecoration: 'none' }}>
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 className={classes.button}
               >
                 Login
@@ -37,7 +37,7 @@ export default function Home() {
             <Link to="/register" style={{ textDecoration: 'none' }}>
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 className={classes.button}
               >
                 Register

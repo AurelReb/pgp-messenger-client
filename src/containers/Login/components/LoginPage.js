@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   register: {
     marginTop: theme.spacing(3),
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   },
   center: {
     marginBottom: theme.spacing(2),
@@ -102,7 +102,7 @@ const LoginPage = () => {
           <Link to="/" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               className={classes.button}
               startIcon={<ArrowBack>send</ArrowBack>}
             >
@@ -125,7 +125,7 @@ const LoginPage = () => {
                 required
                 label="Username"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 onChange={handleChangeUsername}
                 value={username}
               />
@@ -136,7 +136,7 @@ const LoginPage = () => {
                 label="Password"
                 type="password"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 onChange={handleChangePassword}
                 value={password}
               />
@@ -146,7 +146,7 @@ const LoginPage = () => {
             <Link style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={submit}
                 className={classes.button}
                 endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
@@ -156,14 +156,12 @@ const LoginPage = () => {
             </Link>
           </Grid>
           <div className={classes.error}>{error}</div>
-          <Link
-            to="register"
-            className={classes.register}
-            style={{ textDecoration: "none" }}
-          >
-            <center>
-              Have not an account yet? Register <br />
-            </center>
+          <Link to="/register" className={classes.register}>
+            <div>
+              <center>
+                Have not an account yet? Register <br />
+              </center>
+            </div>
           </Link>
         </Paper>
       </main>

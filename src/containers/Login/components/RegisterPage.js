@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   login: {
     marginTop: theme.spacing(3),
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   },
   left: {
     marginLeft: theme.spacing(10),
@@ -79,10 +79,10 @@ function RegisterPage(props) {
       <CssBaseline />
       <header>
         <Grid item xs={6} className={classes.left}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               className={classes.button}
               startIcon={<ArrowBack>send</ArrowBack>}
             >
@@ -106,7 +106,7 @@ function RegisterPage(props) {
                 id="Username"
                 label="Username"
                 variant="outlined"
-                color="secondary"
+                color="primary"
               />
             </Grid>
             <Grid item xs={12} classes={{ root: classes.center }}>
@@ -117,7 +117,7 @@ function RegisterPage(props) {
                 type="password"
                 autoComplete="current-password"
                 variant="outlined"
-                color="secondary"
+                color="primary"
               />
             </Grid>
             <Grid item xs={12} classes={{ root: classes.center }}>
@@ -128,7 +128,7 @@ function RegisterPage(props) {
                 type="password"
                 autoComplete="current-password"
                 variant="outlined"
-                color="secondary"
+                color="primary"
               />
             </Grid>
             <Grid item xs={12} classes={{ root: classes.center }}>
@@ -137,16 +137,16 @@ function RegisterPage(props) {
                 id="pubKey"
                 label="Pgp Public Key"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 multiline="true"
               />
             </Grid>
           </Grid>
           <Grid item xs={6} classes={{ root: classes.center }}>
-            <Link to="/account" style={{ textDecoration: 'none' }}>
+            <Link to="/account" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
               >
@@ -154,7 +154,7 @@ function RegisterPage(props) {
               </Button>
             </Link>
           </Grid>
-          <Link to="login" className={classes.login} style={{ textDecoration: 'none' }}>
+          <Link to="/login" className={classes.login}>
             <center>
               Already have an account? Sign In <br />
             </center>
