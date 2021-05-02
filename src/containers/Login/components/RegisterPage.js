@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 function RegisterPage(props) {
   const mounted = useRef(false);
   const classes = useStyles();
-  const history = useHistory();
 
   useEffect(() => {
     if (!mounted.current) mounted.current = true;
@@ -143,7 +142,7 @@ function RegisterPage(props) {
             </Grid>
           </Grid>
           <Grid item xs={6} classes={{ root: classes.center }}>
-            <Link to="/account" style={{ textDecoration: "none" }}>
+            <Link to="/" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
                 color="primary"
