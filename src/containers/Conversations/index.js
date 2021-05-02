@@ -14,11 +14,13 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from '@material-ui/core/TextField';
 import Paper from "@material-ui/core/Paper";
+import { ArrowForwardIosRounded } from "@material-ui/icons";
 
 import MessageConversation from "./components/MessageConversation";
 import SingleConversation from "./components/SingleConversation";
 
 import { useDispatch, useSelector, getConversations, getConversationMessages } from "../../config/store";
+import { Button, InputAdornment } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -58,6 +60,19 @@ const useStyles = makeStyles((theme) => ({
   },
   ToolbarColor: {
     backgroundColor: theme.palette.primary.dark,
+  },
+  TextInput: {
+    
+    flex:"9",
+  },
+  GridSend: {
+    display:"flex",
+    marginTop:"16px",
+  },
+  SendButton: {
+    padding:"10px",
+    marginLeft:"10px",
+
   },
 }));
 
@@ -149,7 +164,7 @@ const Conversations = (props) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar}/>
+        <div className={classes.toolbar} />
         <Grid container spacing={2}>
           {currentConversation &&
             messages[currentConversation.id] &&
@@ -158,13 +173,38 @@ const Conversations = (props) => {
             ))}
         </Grid>
         <Grid>
-          <Paper>
-            hfjh
+          <Paper className={classes.GridSend}>
+            <form className={classes.TextInput} noValidate autoComplete="off">
+              <TextField
+                id="outlined-secondary"
+                label="Enter your message here"
+                variant="outlined"
+                multiline="true"
+                color="primary"
+                fullWidth="true"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.SendButton}
+                        endIcon={
+                          <ArrowForwardIosRounded>send</ArrowForwardIosRounded>
+                        }
+                      >
+                        {" "}
+                        Send
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </form>
           </Paper>
         </Grid>
       </main>
     </div>
-    
   );
 };
 
