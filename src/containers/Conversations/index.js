@@ -11,6 +11,9 @@ import List from "@material-ui/core/List";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField';
+import Paper from "@material-ui/core/Paper";
 
 import MessageConversation from "./components/MessageConversation";
 import SingleConversation from "./components/SingleConversation";
@@ -49,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  SingleContent: {
+    marginTop: theme.spacing(2),
+  },
+  ToolbarColor: {
+    backgroundColor: theme.palette.primary.dark,
   },
 }));
 
@@ -94,7 +103,7 @@ const Conversations = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.ToolbarColor}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -140,16 +149,22 @@ const Conversations = (props) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
+        <div className={classes.toolbar}/>
+        <Grid container spacing={2}>
           {currentConversation &&
             messages[currentConversation.id] &&
             messages[currentConversation.id].map((message) => (
               <MessageConversation message={message} />
             ))}
-        </Typography>
+        </Grid>
+        <Grid>
+          <Paper>
+            hfjh
+          </Paper>
+        </Grid>
       </main>
     </div>
+    
   );
 };
 
