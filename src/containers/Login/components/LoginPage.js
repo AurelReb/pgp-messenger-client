@@ -94,25 +94,21 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
-  const handleBackRoute = () => {
-    let path = "/";
-    history.push(path);
-  };
-
   return (
     <div>
       <CssBaseline />
       <header>
         <Grid item xs={6} className={classes.left}>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            startIcon={<ArrowBack>send</ArrowBack>}
-            onClick={handleBackRoute}
-          >
-            Back
-          </Button>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              startIcon={<ArrowBack>send</ArrowBack>}
+            >
+              Back
+            </Button>
+          </Link>
         </Grid>
       </header>
       <main className={classes.layout}>
@@ -147,18 +143,24 @@ const LoginPage = () => {
             </Grid>
           </Grid>
           <Grid item xs={6} classes={{ root: classes.center }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={submit}
-              className={classes.button}
-              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-            >
-              Login
-            </Button>
+            <Link style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={submit}
+                className={classes.button}
+                endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+              >
+                Login
+              </Button>
+            </Link>
           </Grid>
           <div className={classes.error}>{error}</div>
-          <Link to="register" className={classes.register}>
+          <Link
+            to="register"
+            className={classes.register}
+            style={{ textDecoration: "none" }}
+          >
             <center>
               Have not an account yet? Register <br />
             </center>
