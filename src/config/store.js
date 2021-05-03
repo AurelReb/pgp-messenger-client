@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { createContainer } from "react-tracked";
 import produce from "immer";
+import userApi from "../api/userApi";
 
 const TOGGLE_DARK_THEME = "TOGGLE_DARK_THEME";
 const GET_USER_PROFILE_SUCCESS = "GET_USER_PROFILE_SUCESS";
@@ -36,18 +37,16 @@ const reducer = (state, action) => {
   });
 };
 
-const getUserProfile = async () => {
-  return (dispatch) => {
+const getUserProfile = () => {
+  return async (dispatch) => {
     try {
-      const response = getUserProfile();
-      const {data: profile} = response;
-      dispatch(getUserProfileSuccess(profile))
+      const response = await userApi.getUserInfo();
+      const { data: profile } = response;
+      dispatch(getUserProfileSuccess(profile));
+    } catch (error) {
+      dispatch(getUserProfileFailure(error.error));
     }
-    catch(error){
-      dispatch(getUserProfileFailure(error.error))
-    }
-  }
-  
+  };
 };
 
 const getUserProfileSuccess = (profile) => {
@@ -87,7 +86,7 @@ export {
   useSelector,
   useTrackedState,
   toggleDarkTheme,
-  getUserProfile
+  getUserProfile,
 };
 
 export default StateProvider;

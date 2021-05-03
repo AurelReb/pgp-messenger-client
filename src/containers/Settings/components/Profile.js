@@ -13,12 +13,13 @@ function Profile() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!profile.name) dispatch(getUserProfile());
-    console.log("test")
+    if (!profile.username) {
+      dispatch(getUserProfile());}
+    let user = profile.username
   });
   return (
     <div>
-        <h1> {profile.name}</h1>
+        <h1> {profile.username}</h1>
     </div>
   );
 }
