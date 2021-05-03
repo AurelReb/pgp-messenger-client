@@ -15,7 +15,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from '@material-ui/core/TextField';
 import Paper from "@material-ui/core/Paper";
 import { ArrowForwardIosRounded } from "@material-ui/icons";
-
 import MessageConversation from "./components/MessageConversation";
 import SingleConversation from "./components/SingleConversation";
 
@@ -23,6 +22,7 @@ import { useDispatch, useSelector, getConversations, getConversationMessages } f
 import { Button, InputAdornment } from "@material-ui/core";
 
 const drawerWidth = 240;
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,28 +52,41 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
-    flexGrow: 1,
+    flex: 1,
     padding: theme.spacing(3),
+    height: "100vh",
   },
-  SingleContent: {
+  singleContent: {
     marginTop: theme.spacing(2),
   },
-  ToolbarColor: {
+  toolbarColor: {
     backgroundColor: theme.palette.primary.dark,
   },
-  TextInput: {
-    
+  textInput: {
     flex:"9",
   },
-  GridSend: {
+  gridSend: {
     display:"flex",
     marginTop:"16px",
   },
-  SendButton: {
+  sendButton: {
     padding:"10px",
     marginLeft:"10px",
 
   },
+  messageContent: {
+    height: "calc(100% - 64px - 50px )",
+    overflowY: "auto",
+    '&::-webkit-scrollbar': {
+      width: "10px",
+    },
+    '&::-webkit-scrollbar-track': {
+      background: "#555",
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: "#888",
+    }
+  }
 }));
 
 const Conversations = (props) => {
@@ -94,6 +107,7 @@ const Conversations = (props) => {
   };
 
   useEffect(() => {
+    console.log(messages)
     if (Object.keys(conversations).length === 0) {
       dispatch(getConversations());
     } else if (!messages[currentConversation.id]) {
@@ -118,7 +132,7 @@ const Conversations = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className={classes.ToolbarColor}>
+        <Toolbar className={classes.toolbarColor}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -165,7 +179,7 @@ const Conversations = (props) => {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid container spacing={2}>
+        <Grid className={classes.messageContent} container spacing={2}>
           {currentConversation &&
             messages[currentConversation.id] &&
             messages[currentConversation.id].map((message) => (
@@ -173,8 +187,8 @@ const Conversations = (props) => {
             ))}
         </Grid>
         <Grid>
-          <Paper className={classes.GridSend}>
-            <form className={classes.TextInput} noValidate autoComplete="off">
+          <Paper className={classes.gridSend}>
+            <form className={classes.textInput} noValidate autoComplete="off">
               <TextField
                 id="outlined-secondary"
                 label="Enter your message here"
@@ -188,7 +202,7 @@ const Conversations = (props) => {
                       <Button
                         variant="contained"
                         color="primary"
-                        className={classes.SendButton}
+                        className={classes.sendButton}
                         endIcon={
                           <ArrowForwardIosRounded>send</ArrowForwardIosRounded>
                         }
@@ -205,6 +219,7 @@ const Conversations = (props) => {
         </Grid>
       </main>
     </div>
+    
   );
 };
 
