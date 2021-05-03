@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   login: {
     marginTop: theme.spacing(3),
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
   left: {
     marginLeft: theme.spacing(10),

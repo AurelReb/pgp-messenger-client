@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   register: {
     marginTop: theme.spacing(3),
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
   center: {
     marginBottom: theme.spacing(2),
