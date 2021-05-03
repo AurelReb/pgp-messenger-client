@@ -1,17 +1,23 @@
+import logo from "../../../logo.f08";
+
 import React, { useEffect, useRef, useState } from "react";
+
 import { Link, useHistory } from "react-router-dom";
+
+import { useDispatch, getToken, useSelector } from "../../../config/store";
+
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { Grid, makeStyles, TextField } from "@material-ui/core";
-import { useDispatch, getToken, useSelector } from "../../../config/store";
 import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     width: 130,
   },
+
   layout: {
     width: "auto",
     display: "block", // Fix IE11 issue.
@@ -23,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "auto",
     },
   },
+
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -32,9 +39,11 @@ const useStyles = makeStyles((theme) => ({
       3
     )}px`,
   },
+
   header: {
     margin: theme.spacing(1),
   },
+
   header_text: {
     marginBottom: theme.spacing(5),
     marginTop: theme.spacing(5),
@@ -44,23 +53,33 @@ const useStyles = makeStyles((theme) => ({
     width: "100%", // Fix IE11 issue.
     marginTop: theme.spacing(1),
   },
+
   submit: {
     marginTop: theme.spacing(3),
   },
+  
   register: {
     marginTop: theme.spacing(3),
     color: theme.palette.primary.main,
   },
+
   center: {
     marginBottom: theme.spacing(2),
     textAlign: "center",
   },
+
   error: {
     color: theme.palette.error.main,
   },
+
   left: {
     marginLeft: theme.spacing(10),
   },
+
+  logo: {
+    maxWidth: 150,
+  },
+
 }));
 
 const LoginPage = () => {
@@ -69,7 +88,7 @@ const LoginPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] =   useState("");
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
@@ -114,7 +133,7 @@ const LoginPage = () => {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
-            <Link to="/"></Link>
+            <Link to="/"><img src={logo} className={classes.logo} alt="logo" />   </Link>
           </div>
           <Typography className={classes.header_text} variant="h5">
             Sign in
