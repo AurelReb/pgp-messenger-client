@@ -11,6 +11,7 @@ const reducer = (state, action) => {
         localStorage.darkTheme = draft.darkTheme;
         break;
       default:
+        conversationsReducer(draft, action);
         break;
     }
 

@@ -77,7 +77,7 @@ export default function Register() {
                   label="Pgp Public Key"
                   variant="outlined"
                   color="secondary"
-                  multiline="true"
+                  multiline
                 />
               </Grid>
               <Grid item xs={12} classes={{ root: classes.center }}>

@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { createContainer } from 'react-tracked';
 import reducer from './reducers';
+import checkAuthMiddleware from './middleware';
 
 const initialState = {
   profile: {},
@@ -18,7 +19,10 @@ const useValue = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const dispatchWithCallback = (dispatcher) => {
     if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback);
-    else dispatch(dispatcher);
+    else {
+      checkAuthMiddleware(state, dispatch, dispatcher);
+      console.log(state);
+    }
   };
   return [state, dispatchWithCallback];
 };

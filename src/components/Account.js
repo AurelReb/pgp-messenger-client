@@ -57,7 +57,7 @@ export default function Home() {
                 id="Message"
                 label="Send Message"
                 color="secondary"
-                multiline="true"
+                multiline
               />
               <Button
                 color="secondary"

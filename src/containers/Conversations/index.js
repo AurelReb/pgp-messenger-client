@@ -197,7 +197,7 @@ const Conversations = () => {
                 id="outlined-secondary"
                 label="Enter your message here"
                 variant="outlined"
-                multiline="true"
+                multiline
                 color="primary"
                 fullWidth="true"
                 InputProps={{

@@ -1,4 +1,3 @@
-import produce from 'immer';
 import conversationsApi from '../../api/conversationsApi';
 
 const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
@@ -7,33 +6,31 @@ const GET_CONVERSATION_MESSAGES_SUCCESS = 'GET_CONVERSATION_MESSAGES_SUCCESS';
 const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
 
-const conversationsReducer = (state, action) => {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case GET_CONVERSATIONS_SUCCESS:
-        draft.conversations = action.conversations;
-        if (action.conversations.length)
-          draft.currentConversation = action.conversations[0].id;
-        break;
+const conversationsReducer = (draft, action) => {
+  switch (action.type) {
+    case GET_CONVERSATIONS_SUCCESS:
+      draft.conversations = action.conversations;
+      if (action.conversations.length)
+        draft.currentConversation = action.conversations[0].id;
+      break;
 
-      case GET_CONVERSATIONS_FAILURE:
-        // draft.conversations.error = action.error;
-        break;
+    case GET_CONVERSATIONS_FAILURE:
+      // draft.conversations.error = action.error;
+      break;
 
-      case GET_CONVERSATION_MESSAGES_SUCCESS:
-        draft.messages[action.conversationId] = action.messages;
-        break;
-      case GET_CONVERSATION_MESSAGES_FAILURE:
-        // draft.conversations.error = action.error;
-        break;
-      case CHANGE_CURRENT_CONVERSATION:
-        draft.currentConversation = action.newConvId;
-        break;
+    case GET_CONVERSATION_MESSAGES_SUCCESS:
+      draft.messages[action.conversationId] = action.messages;
+      break;
+    case GET_CONVERSATION_MESSAGES_FAILURE:
+      // draft.conversations.error = action.error;
+      break;
+    case CHANGE_CURRENT_CONVERSATION:
+      draft.currentConversation = action.newConvId;
+      break;
 
-      default:
-        break;
-    }
-  });
+    default:
+      break;
+  }
 };
 
 const getConversationsSuccess = (conversations) => {
@@ -49,7 +46,7 @@ export const getConversations = () => async (dispatch) => {
     const { data: conversations } = await conversationsApi.getConversations();
     dispatch(getConversationsSuccess(conversations));
   } catch (error) {
-    dispatch(getConversationsFailure(error));
+    dispatch(getConversationsFailure(error.response));
   }
 };
 
