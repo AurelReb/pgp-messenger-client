@@ -1,32 +1,20 @@
-//import logo from "./logo.svg";
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch as RouteSwitch,
   Route,
   useHistory,
   useLocation,
-} from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
-//import { makeStyles } from "@material-ui/core/styles";
-//import Switch from "@material-ui/core/Switch";
-//import FormControlLabel from "@material-ui/core/FormControlLabel";
+} from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
-import Login from "./containers/Login";
-import Home from "./components/home";
+import Login from './containers/Login';
+import Home from './components/home';
+import Account from './components/Account';
+import Conversations from './containers/Conversations';
 
-import StateProvider, {
-  //useDispatch,
-  useTrackedState,
-  //toggleDarkTheme,
-} from "./config/store";
-import { getMuiThemeConfig } from "./config/theming";
-import { useEffect } from "react";
-
-/*const useStyles = makeStyles((theme) => ({
-  logo: {
-    maxWidth: 100,
-  },
-}));*/
+import StateProvider, { useTrackedState } from './config/store';
+import { getMuiThemeConfig } from './config/theming';
 
 function AppRouter() {
   const history = useHistory();
@@ -34,7 +22,7 @@ function AppRouter() {
   const { darkTheme } = useTrackedState();
 
   useEffect(() => {
-    if (pathname.substr(-1) !== "/") history.replace(`${pathname}/`);
+    if (pathname.substr(-1) !== '/') history.replace(`${pathname}/`);
   }, [pathname, history]);
 
   return (
@@ -46,6 +34,9 @@ function AppRouter() {
         </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/conversations">
+          <Conversations />
         </Route>
         <Route exact path="/register">
           <Login />
@@ -65,7 +56,8 @@ export default function App() {
   );
 }
 
-/*function Test() {
+/*
+function Test() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -86,7 +78,7 @@ export default function App() {
               checked={darkTheme}
               onChange={handleToggleDarkTheme}
               name="checkedA"
-              inputProps={{ "aria-label": "secondary checkbox" }}
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
             />
           }
           label="Dark Theme"
@@ -94,4 +86,5 @@ export default function App() {
       </footer>
     </>
   );
-}*/
+}
+*/

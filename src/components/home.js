@@ -1,8 +1,10 @@
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import { Link } from "react-router-dom";
 
@@ -11,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
 

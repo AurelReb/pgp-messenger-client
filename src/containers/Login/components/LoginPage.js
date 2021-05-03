@@ -1,17 +1,15 @@
-import logo from "../../../logo.f08";
-
-import React, { useEffect, useRef, useState } from "react";
-
+import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { Grid, Paper } from '@material-ui/core';
 
-import { useDispatch, getToken, useSelector } from "../../../config/store";
-
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Grid, makeStyles, TextField } from "@material-ui/core";
-import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
+import userApi from '../../../api/userApi';
 
 const useStyles = makeStyles((theme) => ({
   button: {

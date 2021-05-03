@@ -1,33 +1,26 @@
 import axios from 'axios';
 
 const getAxiosInstance = () => {
-  let token = sessionStorage.getItem('access_token');
+  const token = sessionStorage.getItem('access_token');
   if (token) {
     return axios.create({
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: `Bearer ${token}`,
       },
     });
-  } else {
-    return axios.create();
   }
+  return axios.create();
 };
 
-const post = (url = '', data = '', config = {}) => {
-  return getAxiosInstance().post(url, data, config);
-};
+const post = (url = '', data = '', config = {}) =>
+  getAxiosInstance().post(url, data, config);
 
-const get = (url) => {
-  return getAxiosInstance().get(url);
-};
+const get = (url) => getAxiosInstance().get(url);
 
-const put = (url = '', data = '', config = {}) => {
-  return getAxiosInstance().put(url, data, config);
-};
+const put = (url = '', data = '', config = {}) =>
+  getAxiosInstance().put(url, data, config);
 
-const del = (url = '', config = {}) => {
-  return getAxiosInstance().delete(url, config);
-};
+const del = (url = '', config = {}) => getAxiosInstance().delete(url, config);
 
 const httpClient = {
   post,
@@ -36,4 +29,4 @@ const httpClient = {
   delete: del,
 };
 
-export { httpClient };
+export default httpClient;
