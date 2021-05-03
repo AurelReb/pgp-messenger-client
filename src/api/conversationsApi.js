@@ -1,6 +1,6 @@
-import { httpClient } from "./httpClient";
+import httpClient from './httpClient';
 
-import { CONVERSATIONS_API_URL } from "./constants";
+import { CONVERSATIONS_API_URL } from './constants';
 
 const getConversations = () => httpClient.get(CONVERSATIONS_API_URL);
 const getConversationMessages = (id) =>

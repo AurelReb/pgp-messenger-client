@@ -1,16 +1,17 @@
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import { Grid } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
 
@@ -20,11 +21,11 @@ export default function Home() {
   const history = useHistory();
 
   const LoginRoute = () => {
-    let path = "/login";
+    const path = '/login';
     history.push(path);
   };
   const RegisterRoute = () => {
-    let path = "/register";
+    const path = '/register';
     history.push(path);
   };
   return (

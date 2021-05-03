@@ -1,20 +1,20 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { Paper } from "@material-ui/core";
+import React from 'react';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { useHistory } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
 
@@ -24,16 +24,16 @@ export default function Register() {
   const history = useHistory();
 
   const BackRoute = () => {
-    let path = "/";
+    const path = '/';
     history.push(path);
   };
 
   const AccountRoute = () => {
-    let path = "/account";
+    const path = '/account';
     history.push(path);
   };
   return (
-    <React.Fragment>
+    <>
       <header className="App-header">
         <CssBaseline />
         <Container maxWidth="sm">
@@ -94,7 +94,9 @@ export default function Register() {
                   variant="contained"
                   color="secondary"
                   className={classes.button}
-                  endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+                  endIcon={
+                    <ArrowForwardIosRounded>send</ArrowForwardIosRounded>
+                  }
                   onClick={AccountRoute}
                 >
                   Register
@@ -104,6 +106,6 @@ export default function Register() {
           </Paper>
         </Container>
       </header>
-    </React.Fragment>
+    </>
   );
 }

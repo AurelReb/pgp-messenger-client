@@ -1,8 +1,9 @@
-import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { useDispatch, changeCurrentConversation } from "../../../config/store";
-import { current } from "immer";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { useDispatch } from '../../../config/store';
+import { changeCurrentConversation } from '../../../config/reducers/conversations';
 
 export default function SingleConversation({ conversation }) {
   const dispatch = useDispatch();
@@ -18,3 +19,6 @@ export default function SingleConversation({ conversation }) {
     </ListItem>
   );
 }
+SingleConversation.propTypes = {
+  conversation: PropTypes.object.isRequired,
+};

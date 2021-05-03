@@ -1,55 +1,53 @@
-import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import { Grid } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
-import userApi from "../../../api/userApi"
+import React, { useState } from 'react';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { Grid, Paper } from '@material-ui/core';
+
+import userApi from '../../../api/userApi';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
-
 
 export default function LoginPage() {
   const classes = useStyles();
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const submit = async () => {
     try {
-      const {data} = await userApi.getUserToken(username, password)
+      const { data } = await userApi.getUserToken(username, password);
       sessionStorage.access_token = data.access;
       sessionStorage.refresh_token = data.refresh;
+    } catch {
+      setError('invalid login');
     }
-    catch (error) {
-      setError("invalid login")
-    }
-  }
+  };
 
-  const handleChangeUsername = e => {
-    setUsername(e.target.value)
-  }
+  const handleChangeUsername = (e) => {
+    setUsername(e.target.value);
+  };
 
-  const handleChangePassword = e => {
-    setPassword(e.target.value)
-  }
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
   const history = useHistory();
 
   const BackRoute = () => {
-    let path = "/";
+    const path = '/';
     history.push(path);
   };
 

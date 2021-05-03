@@ -1,18 +1,19 @@
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import { Route, Switch } from "react-router-dom";
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
 function Login() {
   return (
-      <Switch>
-        <Route exact path="/login">
-          <LoginPage />
-        </Route>
-        <Route exact path="/register">
-          <RegisterPage />
-        </Route>
-      </Switch>
+    <Switch>
+      <Route exact path="/login">
+        <LoginPage />
+      </Route>
+      <Route exact path="/register">
+        <RegisterPage />
+      </Route>
+    </Switch>
   );
 }
 

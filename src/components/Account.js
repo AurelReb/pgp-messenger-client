@@ -1,28 +1,29 @@
-import Container from "@material-ui/core/Container";
-import {ArrowForwardIosRounded } from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { ArrowForwardIosRounded } from '@material-ui/icons';
+import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   right: {
-    textAlign: "right",
+    textAlign: 'right',
   },
   left: {
-    textAlign: "left",
+    textAlign: 'left',
   },
 }));
 
 export default function Home() {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Container maxWidth="sm">
