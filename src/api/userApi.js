@@ -1,6 +1,6 @@
 import httpClient from './httpClient';
 
-import { USER_API_URL, GET_TOKEN_URL, REFRESH_TOKEN_URL } from "./constants";
+import { USER_API_URL, GET_TOKEN_URL, REFRESH_TOKEN_URL } from './constants';
 
 const getMyProfile = () => httpClient.get(`${USER_API_URL}me/`);
 

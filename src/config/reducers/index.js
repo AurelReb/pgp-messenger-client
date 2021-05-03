@@ -1,4 +1,5 @@
 import produce from 'immer';
+import authenticationReducer from './authentication';
 import conversationsReducer from './conversations';
 
 const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
@@ -12,6 +13,7 @@ const reducer = (state, action) => {
         break;
       default:
         conversationsReducer(draft, action);
+        authenticationReducer(draft, action);
         break;
     }
 

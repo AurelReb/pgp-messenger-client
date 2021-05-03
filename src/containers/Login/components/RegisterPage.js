@@ -1,34 +1,37 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Grid, makeStyles, TextField } from "@material-ui/core";
-import { ArrowBack, ArrowForwardIosRounded } from "@material-ui/icons";
+import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     width: 130,
   },
   layout: {
-    width: "auto",
-    display: "block", // Fix IE11 issue.
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
       width: 400,
-      marginLeft: "auto",
-      marginRight: "auto",
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
-      3
+      3,
     )}px`,
   },
   header: {
@@ -40,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   form: {
-    width: "100%", // Fix IE11 issue.
+    width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -54,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   center: {
     marginBottom: theme.spacing(1),
-    textAlign: "center",
+    textAlign: 'center',
   },
   login: {
     marginTop: theme.spacing(3),
@@ -65,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RegisterPage(props) {
+function RegisterPage() {
   const mounted = useRef(false);
   const classes = useStyles();
 
@@ -78,7 +81,7 @@ function RegisterPage(props) {
       <CssBaseline />
       <header>
         <Grid item xs={6} className={classes.left}>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
             <Button
               variant="contained"
               color="primary"
@@ -93,7 +96,7 @@ function RegisterPage(props) {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
-            <Link to="/"></Link>
+            <Link to="/" />
           </div>
           <Typography className={classes.header_text} variant="h5">
             Sign Up
@@ -142,7 +145,7 @@ function RegisterPage(props) {
             </Grid>
           </Grid>
           <Grid item xs={6} classes={{ root: classes.center }}>
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -155,7 +158,9 @@ function RegisterPage(props) {
           </Grid>
           <Link to="/login" className={classes.login}>
             <center>
-              Already have an account? Sign In <br />
+              Already have an account? Sign In
+              {' '}
+              <br />
             </center>
           </Link>
         </Paper>

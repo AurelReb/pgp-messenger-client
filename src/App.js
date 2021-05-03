@@ -10,7 +10,6 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import Login from './containers/Login';
 import Home from './components/home';
-import Account from './components/Account';
 import Conversations from './containers/Conversations';
 
 import StateProvider, { useTrackedState } from './config/store';

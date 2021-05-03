@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from "react-router-dom";
-import Container from '@material-ui/core/Container';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
-import { Grid, Paper } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
-import userApi from '../../../api/userApi';
+import { useDispatch, useSelector } from '../../../config/store';
+import { getToken } from '../../../config/reducers/authentication';
+
+import logo from '../../../logo.f08';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,24 +22,24 @@ const useStyles = makeStyles((theme) => ({
   },
 
   layout: {
-    width: "auto",
-    display: "block", // Fix IE11 issue.
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
       width: 400,
-      marginLeft: "auto",
-      marginRight: "auto",
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
   },
 
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
-      3
+      3,
     )}px`,
   },
 
@@ -48,14 +53,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   form: {
-    width: "100%", // Fix IE11 issue.
+    width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing(1),
   },
 
   submit: {
     marginTop: theme.spacing(3),
   },
-  
+
   register: {
     marginTop: theme.spacing(3),
     color: theme.palette.primary.main,
@@ -63,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
   center: {
     marginBottom: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   error: {
@@ -85,13 +90,13 @@ const LoginPage = () => {
   const mounted = useRef(false);
   const history = useHistory();
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] =   useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
     const onConponentMount = () => {
-      history.replace("/");
+      history.replace('/');
     };
     if (!mounted.current) {
       onConponentMount();
@@ -116,7 +121,7 @@ const LoginPage = () => {
       <CssBaseline />
       <header>
         <Grid item xs={6} className={classes.left}>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
             <Button
               variant="contained"
               color="primary"
@@ -131,7 +136,10 @@ const LoginPage = () => {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
-            <Link to="/"><img src={logo} className={classes.logo} alt="logo" />   </Link>
+            <Link to="/">
+              <img src={logo} className={classes.logo} alt="logo" />
+              {' '}
+            </Link>
           </div>
           <Typography className={classes.header_text} variant="h5">
             Sign in
@@ -160,23 +168,23 @@ const LoginPage = () => {
             </Grid>
           </Grid>
           <Grid item xs={6} classes={{ root: classes.center }}>
-            <Link style={{ textDecoration: "none" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={submit}
-                className={classes.button}
-                endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-              >
-                Login
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={submit}
+              className={classes.button}
+              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+            >
+              Login
+            </Button>
           </Grid>
           <div className={classes.error}>{error}</div>
           <Link to="/register" className={classes.register}>
             <div>
               <center>
-                Have not an account yet? Register <br />
+                Have not an account yet? Register
+                {' '}
+                <br />
               </center>
             </div>
           </Link>

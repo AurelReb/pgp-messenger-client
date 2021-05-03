@@ -1,5 +1,4 @@
-import produce from 'immer';
-import userApi from '../api/userApi';
+import userApi from '../../api/userApi';
 
 const GET_TOKEN_FAILURE = 'GET_TOKEN_FAILURE';
 const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
@@ -30,7 +29,7 @@ const getTokenFailure = (error) => {
   return { type: GET_TOKEN_FAILURE, error };
 };
 
-const getToken = (username, password) => {
+export const getToken = (username, password) => {
   return async (dispatch) => {
     try {
       const { data: tokens } = await userApi.getUserToken(username, password);
@@ -41,3 +40,5 @@ const getToken = (username, password) => {
     }
   };
 };
+
+export default authenticationReducer;
