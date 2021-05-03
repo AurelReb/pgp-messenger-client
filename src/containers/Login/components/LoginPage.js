@@ -138,7 +138,6 @@ const LoginPage = () => {
           <div className={classes.header}>
             <Link to="/">
               <img src={logo} className={classes.logo} alt="logo" />
-              {' '}
             </Link>
           </div>
           <Typography className={classes.header_text} variant="h5">

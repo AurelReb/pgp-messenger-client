@@ -10,6 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
 
+import logo from '../../../logo.f08';
+
 const useStyles = makeStyles((theme) => ({
   button: {
     width: 130,
@@ -66,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
   left: {
     marginLeft: theme.spacing(10),
   },
+
+  logo: {
+    maxWidth: 150,
+  },
 }));
 
 function RegisterPage() {
@@ -96,7 +102,9 @@ function RegisterPage() {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
-            <Link to="/" />
+            <Link to="/">
+              <img src={logo} className={classes.logo} alt="logo" />
+            </Link>
           </div>
           <Typography className={classes.header_text} variant="h5">
             Sign Up
