@@ -28,6 +28,7 @@ const useValue = () => {
       if (!cycle)
         checkAuthMiddleware(state, dispatchWithCallback(true), dispatcher);
       else dispatch(dispatcher);
+      // eslint-disable-next-line no-console
       console.log(state);
     }
   };

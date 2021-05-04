@@ -11,12 +11,15 @@ import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
@@ -24,11 +27,17 @@ import SingleConversation from './components/SingleConversation';
 import { useDispatch, useSelector } from '../../config/store';
 import {
   getConversationMessages,
+  getConversations,
 } from '../../config/reducers/conversations';
+import { logout } from '../../config/reducers/authentication';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    marginLeft: 'auto',
+  },
+
   root: {
     display: 'flex',
   },
@@ -100,8 +109,14 @@ const Conversations = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleLogout = () => {
+    dispatch(logout);
+  };
+
   useEffect(() => {
-    if (conversations.length && !messages[currentConversation.id]) {
+    if (Object.keys(conversations).length === 0) {
+      dispatch(getConversations());
+    } else if (!messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
     }
   });
@@ -136,6 +151,19 @@ const Conversations = () => {
           <Typography variant="h6" noWrap>
             {currentConversation && currentConversation.name}
           </Typography>
+          <Tooltip title="Logout">
+            <IconButton
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.button}
+              onClick={handleLogout}
+            >
+              <Fab color="secondary">
+                <ExitToAppIcon>send</ExitToAppIcon>
+              </Fab>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
