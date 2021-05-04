@@ -1,5 +1,6 @@
 import history from './history';
-import { GET_TOKEN_SUCCESS, LOGOUT } from './reducers/authentication';
+import { GET_TOKEN_SUCCESS, JUST_LOGGED_IN, logout, LOGOUT, refreshToken } from './reducers/authentication';
+import { getConversations } from './reducers/conversations';
 
 function stopAllIntervals() {
   const index = setInterval(() => null, 10000);
@@ -29,25 +30,28 @@ function getLastEventTimestamp() {
       store.dispatch(getBots());
     });
 }
-
-function dispatchInitialGets(store) {
+*/
+function dispatchInitialGets(state, dispatch) {
   if (
-    (!localStorage.accessToken_validity_timestamp
-        || localStorage.accessToken_validity_timestamp > Date.now())
-        && !store.getState().assets.assets.length
+    (!localStorage.accessTokenValidityTimestamp
+      || localStorage.accessTokenValidityTimestamp > Date.now())
+      && !state.conversations.length
   ) {
     stopAllIntervals();
-    store.dispatch(getAssets());
-    store.dispatch(recordAssets(Date.now() - 7200000));
+    dispatch(getConversations());
+  }
+  if (localStorage.rememberLogin && localStorage.refreshTokenValidityTimestamp > Date.now()) {
+    setInterval(() => dispatch(refreshToken()), localStorage.accessTokenValidityTimestamp);
   }
 }
-*/
+
 const checkAuthMiddleware = (state, next, action) => {
   switch (action.type) {
+    case JUST_LOGGED_IN:
     case GET_TOKEN_SUCCESS:
     // case REGISTER_SUCCESS:
-      // dispatchInitialGets(store);
       history.replace('/');
+      dispatchInitialGets(state, next);
       break;
 
       // case REFRESH_TOKEN_SUCCESS:
@@ -61,15 +65,12 @@ const checkAuthMiddleware = (state, next, action) => {
     default:
       break;
   }
-  /*
-    if (
-      action.response !== undefined
-            && (action.response.status === 403 || action.response.status === 401)
-    ) {
-      if (!localStorage.refreshToken) store.dispatch(logout());
-      else if (!store.getState().user.pending_refresh)
-        store.dispatch(refreshToken());
-    } */
+  if (
+    action.error !== undefined
+    && (action.error.status === 403 || action.error.status === 401)
+  ) {
+    next(logout);
+  }
   // eslint-disable-next-line no-console
   console.log(action);
   next(action);

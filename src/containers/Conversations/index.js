@@ -24,7 +24,6 @@ import SingleConversation from './components/SingleConversation';
 import { useDispatch, useSelector } from '../../config/store';
 import {
   getConversationMessages,
-  getConversations,
 } from '../../config/reducers/conversations';
 
 const drawerWidth = 240;
@@ -82,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {
+    /* '&::-webkit-scrollbar': {
       width: '10px',
     },
     '&::-webkit-scrollbar-track': {
@@ -90,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '&::-webkit-scrollbar-thumb': {
       background: '#888',
-    },
+    }, */
   },
 }));
 
@@ -111,9 +110,7 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(conversations).length === 0) {
-      dispatch(getConversations());
-    } else if (!messages[currentConversation.id]) {
+    if (conversations.length && !messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
     }
   });

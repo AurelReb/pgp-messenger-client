@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 16px',
     borderRadius: '18px',
     backgroundColor: theme.palette.primary.main,
+    color: 'white',
   },
 }));
 
@@ -20,7 +21,7 @@ export default function MessageConversation({ message }) {
   return (
     <Grid item container direction="row-reverse">
       <Paper className={classes.messages}>
-        <Typography color="textPrimary">
+        <Typography>
           {message.message}
         </Typography>
       </Paper>

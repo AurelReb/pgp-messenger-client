@@ -1,5 +1,6 @@
 import userApi from '../../api/userApi';
 
+export const JUST_LOGGED_IN = 'JUST_LOGGED_IN';
 export const GET_TOKEN_FAILURE = 'GET_TOKEN_FAILURE';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
@@ -35,6 +36,19 @@ const authenticationReducer = (draft, action) => {
     case SET_ERROR:
       draft.error = action.error;
       break;
+
+    case LOGOUT:
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('refreshTokenValidityTimestamp');
+      localStorage.removeItem('accessTokenValidityTimestamp');
+      localStorage.removeItem('rememberLogin');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
+      draft.profile = {};
+      draft.isAuthenticated = false;
+      break;
+
     default:
       break;
   }
@@ -45,8 +59,6 @@ const getTokenSuccess = (access, refresh, keepConnected) => {
   sessionStorage.refreshToken = refresh;
   localStorage.removeItem('rememberLogin');
   if (keepConnected) {
-    localStorage.accessToken = access;
-    localStorage.refreshToken = refresh;
     localStorage.rememberLogin = true;
     localStorage.accessToken = access;
     localStorage.refreshToken = refresh;
@@ -81,6 +93,12 @@ export const getToken = (username, password, keepConnected) => {
 const refreshTokenSuccess = (access, refresh) => {
   sessionStorage.accessToken = access;
   sessionStorage.refreshToken = refresh;
+  if (localStorage.rememberLogin) {
+    localStorage.accessToken = access;
+    localStorage.refreshToken = refresh;
+    localStorage.refreTshokenValidityTimestamp = Date.now() + 60000 * 60 * 24 * 7 - 60000;
+    localStorage.accessTokenValidityTimestamp = Date.now() + 60000 * 59;
+  }
   return { type: REFRESH_TOKEN_SUCCESS };
 };
 
@@ -147,6 +165,10 @@ export const registerUser = (
       dispatch(registerUserFailure(error.response));
     }
   };
+};
+
+export const logout = {
+  type: LOGOUT,
 };
 
 export default authenticationReducer;

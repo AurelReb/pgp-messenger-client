@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Router,
   Switch as RouteSwitch,
@@ -11,9 +11,10 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import Login from './containers/Login';
 import Conversations from './containers/Conversations';
 
-import StateProvider, { useSelector, useTrackedState } from './config/store';
+import StateProvider, { useDispatch, useSelector, useTrackedState } from './config/store';
 import { getMuiThemeConfig } from './config/theming';
 import routerHistory from './config/history';
+import { JUST_LOGGED_IN } from './config/reducers/authentication';
 
 const ProtectedRoute = (props) => {
   const isAuthenticated = useSelector((state) => state.isAuthenticated);
@@ -30,10 +31,23 @@ function AppRouter() {
   const history = useHistory();
   const { pathname } = useLocation();
   const { darkTheme } = useTrackedState();
+  const mounted = useRef(false);
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (pathname.substr(-1) !== '/') history.replace(`${pathname}/`);
   }, [pathname, history]);
+
+  const onComponentMount = () => {
+    if (isAuthenticated)
+      dispatch({ type: JUST_LOGGED_IN });
+    mounted.current = true;
+  };
+
+  useEffect(() => {
+    if (!mounted.current) onComponentMount();
+  });
 
   return (
     <ThemeProvider theme={getMuiThemeConfig(darkTheme)}>
