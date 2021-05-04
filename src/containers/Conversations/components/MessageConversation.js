@@ -12,13 +12,19 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '18px',
     backgroundColor: theme.palette.primary.main,
   },
+  messageContainer: {
+    '&:last-child': {
+      marginBottom: 'auto',
+    },
+
+  },
 }));
 
 export default function MessageConversation({ message }) {
   const classes = useStyles();
 
   return (
-    <Grid item container direction="row-reverse">
+    <Grid className={classes.messageContainer} item container direction="row-reverse">
       <Paper className={classes.messages}>
         <Typography color="textPrimary">
           {message.message}

@@ -5,6 +5,8 @@ const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
 const GET_CONVERSATION_MESSAGES_SUCCESS = 'GET_CONVERSATION_MESSAGES_SUCCESS';
 const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
+const POST_CONVERSATION_MESSAGES_SUCCESS = 'POST_CONVERSATION_MESSAGES_SUCCESS';
+const POST_CONVERSATION_MESSAGES_FAILURE = 'POST_CONVERSATION_MESSAGES_FAILURE';
 
 const conversationsReducer = (draft, action) => {
   switch (action.type) {
@@ -27,7 +29,13 @@ const conversationsReducer = (draft, action) => {
     case CHANGE_CURRENT_CONVERSATION:
       draft.currentConversation = action.newConvId;
       break;
-
+    case POST_CONVERSATION_MESSAGES_SUCCESS:
+      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH');
+      draft.messages[action.conversationId].push(action.message);
+      break;
+    case POST_CONVERSATION_MESSAGES_FAILURE:
+      // handle error here
+      break;
     default:
       break;
   }
@@ -66,13 +74,38 @@ export const getConversationMessages = (id) => {
       );
       dispatch(getConversationMessagesSuccess(messages, id));
     } catch (error) {
-      dispatch(getConversationMessagesFailure(error));
+      dispatch(getConversationMessagesFailure(error.response));
     }
   };
 };
 
 export const changeCurrentConversation = (newConvId) => {
   return { type: CHANGE_CURRENT_CONVERSATION, newConvId };
+};
+
+export const postConversationMessageSuccess = (conversationId, message) => {
+  return { type: POST_CONVERSATION_MESSAGES_SUCCESS, conversationId, message };
+};
+
+export const postConversationMessageFailure = (error) => {
+  return { type: POST_CONVERSATION_MESSAGES_FAILURE, error };
+};
+
+export const postConversationMessage = (conversationId, messageContent) => {
+  return async (dispatch) => {
+    try {
+      const { data: message } = await conversationsApi.postConversationMessage(
+        conversationId,
+        messageContent,
+      );
+      console.log(conversationId);
+      console.log(messageContent);
+      dispatch(postConversationMessageSuccess(conversationId, message));
+    } catch (error) {
+      console.log(error);
+      dispatch(postConversationMessageFailure(error.response));
+    }
+  };
 };
 
 export default conversationsReducer;

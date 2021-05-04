@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from '../../config/store';
 import {
   getConversationMessages,
   getConversations,
+  postConversationMessage,
 } from '../../config/reducers/conversations';
 
 const drawerWidth = 240;
@@ -98,7 +99,8 @@ const Conversations = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState('');
   const conversations = useSelector((state) => state.conversations);
   const currentConversation = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
@@ -110,14 +112,30 @@ const Conversations = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleTextFieldChange = (e) => {
+    setTextFieldValue(e.target.value);
+  };
+
+  const handleSendMessage = () => {
+    const messageContent = textFieldValue.trim();
+    if (messageContent !== '') {
+      dispatch(postConversationMessage(currentConversation.id, messageContent));
+    }
+    setTextFieldValue('');
+  };
+
   useEffect(() => {
-    console.log(messages);
     if (Object.keys(conversations).length === 0) {
       dispatch(getConversations());
     } else if (!messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
     }
   });
+
+  useEffect(() => {
+    const container = document.querySelector('#messages-container');
+    container.scrollTo(0, container.scrollHeight);
+  }, [messages, currentConversation]);
 
   const drawer = (
     <div>
@@ -183,7 +201,7 @@ const Conversations = () => {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid className={classes.messageContent} container spacing={2}>
+        <Grid id="messages-container" className={classes.messageContent} container spacing={2} alignContent="flex-start">
           {currentConversation
             && messages[currentConversation.id]
             && messages[currentConversation.id].map((message) => (
@@ -195,17 +213,20 @@ const Conversations = () => {
             <form className={classes.textInput} noValidate autoComplete="off">
               <TextField
                 id="outlined-secondary"
+                onChange={handleTextFieldChange}
                 label="Enter your message here"
                 variant="outlined"
+                value={textFieldValue}
                 multiline
                 color="primary"
-                fullWidth="true"
+                fullWidth
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>
                       <Button
                         variant="contained"
                         color="primary"
+                        onClick={handleSendMessage}
                         className={classes.sendButton}
                         endIcon={
                           <ArrowForwardIosRounded>send</ArrowForwardIosRounded>
