@@ -151,28 +151,28 @@ const Conversations = () => {
           <Typography variant="h6" noWrap>
             {currentConversation && currentConversation.name}
           </Typography>
-          <Tooltip title="Logout">
-            <IconButton
-              variant="contained"
-              color="primary"
-              type="submit"
-              className={classes.button}
-              onClick={handleLogout}
-            >
-              <Fab color="secondary">
-                <ExitToAppIcon>send</ExitToAppIcon>
-              </Fab>
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Change Theme">
             <IconButton
               variant="contained"
               color="primary"
               type="submit"
+              className={classes.button}
               onClick={() => dispatch(toggleDarkTheme)}
             >
               <Fab>
                 <Brightness4Icon>send</Brightness4Icon>
+              </Fab>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Logout">
+            <IconButton
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handleLogout}
+            >
+              <Fab color="secondary">
+                <ExitToAppIcon>send</ExitToAppIcon>
               </Fab>
             </IconButton>
           </Tooltip>
