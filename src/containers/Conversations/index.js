@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -29,6 +28,7 @@ import {
   getConversationMessages,
   getConversations,
 } from '../../config/reducers/conversations';
+import { toggleDarkTheme } from '../../config/reducers';
 import { logout } from '../../config/reducers/authentication';
 
 const drawerWidth = 240;
@@ -136,7 +136,6 @@ const Conversations = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbarColor}>
           <IconButton
@@ -164,6 +163,7 @@ const Conversations = () => {
               </Fab>
             </IconButton>
           </Tooltip>
+          <Button onClick={() => dispatch(toggleDarkTheme)}>Dark theme</Button>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

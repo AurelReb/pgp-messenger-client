@@ -30,9 +30,8 @@ const ProtectedRoute = (props) => {
 function AppRouter() {
   const history = useHistory();
   const { pathname } = useLocation();
-  const { darkTheme } = useTrackedState();
+  const { darkTheme, isAuthenticated } = useTrackedState();
   const mounted = useRef(false);
-  const isAuthenticated = useSelector((state) => state.isAuthenticated);
   const dispatch = useDispatch();
 
   useEffect(() => {

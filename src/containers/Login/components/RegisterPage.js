@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
@@ -147,7 +146,6 @@ function RegisterPage() {
 
   return (
     <div>
-      <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
