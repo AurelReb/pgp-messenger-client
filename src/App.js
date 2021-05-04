@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch as RouteSwitch,
   Route,
   useHistory,
@@ -12,8 +12,20 @@ import Login from './containers/Login';
 import Home from './components/home';
 import Conversations from './containers/Conversations';
 
-import StateProvider, { useTrackedState } from './config/store';
+import StateProvider, { useSelector, useTrackedState } from './config/store';
 import { getMuiThemeConfig } from './config/theming';
+import routerHistory from './config/history';
+
+const ProtectedRoute = (props) => {
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthenticated) history.replace('/login');
+  });
+
+  return isAuthenticated ? <Route {...props} /> : null;
+};
 
 function AppRouter() {
   const history = useHistory();
@@ -34,9 +46,9 @@ function AppRouter() {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/conversations">
+        <ProtectedRoute exact path="/conversations">
           <Conversations />
-        </Route>
+        </ProtectedRoute>
         <Route exact path="/register">
           <Login />
         </Route>
@@ -48,7 +60,7 @@ function AppRouter() {
 export default function App() {
   return (
     <StateProvider>
-      <Router>
+      <Router history={routerHistory}>
         <AppRouter />
       </Router>
     </StateProvider>

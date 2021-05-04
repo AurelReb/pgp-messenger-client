@@ -1,7 +1,8 @@
 import userApi from '../../api/userApi';
 
-const GET_TOKEN_FAILURE = 'GET_TOKEN_FAILURE';
-const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
+export const GET_TOKEN_FAILURE = 'GET_TOKEN_FAILURE';
+export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
+export const LOGOUT = 'LOGOUT';
 
 const authenticationReducer = (draft, action) => {
   switch (action.type) {

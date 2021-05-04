@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
@@ -87,22 +87,10 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPage = () => {
   const classes = useStyles();
-  const mounted = useRef(false);
-  const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.error);
-
-  useEffect(() => {
-    const onConponentMount = () => {
-      history.replace('/');
-    };
-    if (!mounted.current) {
-      onConponentMount();
-      mounted.current = true;
-    }
-  }, [error, mounted, history]);
 
   const submit = () => {
     dispatch(getToken(username, password));
@@ -148,6 +136,7 @@ const LoginPage = () => {
               <TextField
                 required
                 label="Username"
+                name="username"
                 variant="outlined"
                 color="primary"
                 onChange={handleChangeUsername}
@@ -159,6 +148,7 @@ const LoginPage = () => {
                 required
                 label="Password"
                 type="password"
+                name="password"
                 variant="outlined"
                 color="primary"
                 onChange={handleChangePassword}

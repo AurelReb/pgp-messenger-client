@@ -15,12 +15,10 @@ module.exports = {
     },
     ecmaVersion: 2018,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   plugins: ['react', 'babel'],
   parser: '@babel/eslint-parser',
-  parserOptions: {
-    requireConfigFile: false,
-  },
   rules: {
     'react/forbid-prop-types': 'off',
     'react/jsx-filename-extension': 'off',
@@ -37,7 +35,7 @@ module.exports = {
     curly: 'off',
     'nonblock-statement-body-position': 'off',
     'object-curly-newline': 'off',
-    //'arrow-parens': ['error', 'as-needed'],
+    // 'arrow-parens': ['error', 'as-needed'],
   },
   settings: {
     'import/resolver': {

@@ -1,10 +1,13 @@
-/* function stopAllIntervals() {
+import history from './history';
+import { GET_TOKEN_SUCCESS, LOGOUT } from './reducers/authentication';
+
+function stopAllIntervals() {
   const index = setInterval(() => null, 10000);
   for (let i = 0; i <= index; i += 1) {
     clearInterval(i);
   }
 }
-
+/*
 function getLastEventTimestamp() {
   BotApi.getLastEventTimestamp()
     .then((response) => {
@@ -40,26 +43,25 @@ function dispatchInitialGets(store) {
 }
 */
 const checkAuthMiddleware = (state, next, action) => {
-  /*
   switch (action.type) {
     case GET_TOKEN_SUCCESS:
-      case REGISTER_SUCCESS:
-        dispatchInitialGets(store);
-        history.push('/conversations');
+    // case REGISTER_SUCCESS:
+      // dispatchInitialGets(store);
+      history.replace('/conversations');
+      break;
 
-        break;
+      // case REFRESH_TOKEN_SUCCESS:
+      // dispatchInitialGets();
 
-      case REFRESH_TOKEN_SUCCESS:
-        dispatchInitialGets();
-
-      case LOGOUT:
-        stopAllIntervals();
-        history.push('/login');
+    case LOGOUT:
+      stopAllIntervals();
+      history.push('/login');
+      break;
 
     default:
       break;
   }
-
+  /*
     if (
       action.response !== undefined
             && (action.response.status === 403 || action.response.status === 401)
