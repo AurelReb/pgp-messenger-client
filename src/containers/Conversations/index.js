@@ -93,6 +93,12 @@ const useStyles = makeStyles((theme) => ({
       background: '#888',
     },
   },
+  dateBubble: {
+    padding: '10px 16px',
+    borderRadius: '18px',
+    backgroundColor: theme.palette.action.hover,
+    margin: 'auto',
+  },
 }));
 
 const Conversations = () => {
@@ -122,6 +128,20 @@ const Conversations = () => {
       dispatch(postConversationMessage(currentConversation.id, messageContent));
     }
     setTextFieldValue('');
+  };
+
+  const messagesDate = (message, index) => {
+    if (index === 0) {
+      return (
+        <Paper className={classes.dateBubble}>
+          <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
+            {new Date(message.created_at * 1000).toLocaleDateString()}
+          </Typography>
+        </Paper>
+      );
+    }
+
+    return null;
   };
 
   useEffect(() => {
@@ -204,8 +224,11 @@ const Conversations = () => {
         <Grid id="messages-container" className={classes.messageContent} container spacing={2} alignContent="flex-start">
           {currentConversation
             && messages[currentConversation.id]
-            && messages[currentConversation.id].map((message) => (
-              <MessageConversation message={message} key={message.id} />
+            && messages[currentConversation.id].map((message, index) => (
+              <>
+                {messagesDate(message, index)}
+                <MessageConversation message={message} key={message.id} />
+              </>
             ))}
         </Grid>
         <Grid>

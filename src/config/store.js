@@ -22,7 +22,6 @@ const useValue = () => {
     if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback);
     else {
       checkAuthMiddleware(state, dispatch, dispatcher);
-      console.log(state);
     }
   };
   return [state, dispatchWithCallback];

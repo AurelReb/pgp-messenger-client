@@ -30,7 +30,6 @@ const conversationsReducer = (draft, action) => {
       draft.currentConversation = action.newConvId;
       break;
     case POST_CONVERSATION_MESSAGES_SUCCESS:
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH');
       draft.messages[action.conversationId].push(action.message);
       break;
     case POST_CONVERSATION_MESSAGES_FAILURE:
@@ -98,11 +97,8 @@ export const postConversationMessage = (conversationId, messageContent) => {
         conversationId,
         messageContent,
       );
-      console.log(conversationId);
-      console.log(messageContent);
       dispatch(postConversationMessageSuccess(conversationId, message));
     } catch (error) {
-      console.log(error);
       dispatch(postConversationMessageFailure(error.response));
     }
   };

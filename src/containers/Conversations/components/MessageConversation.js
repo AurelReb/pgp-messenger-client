@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
     '&:last-child': {
       marginBottom: 'auto',
     },
-
+  },
+  dateTypo: {
+    display: 'block',
   },
 }));
 
@@ -28,6 +30,11 @@ export default function MessageConversation({ message }) {
       <Paper className={classes.messages}>
         <Typography color="textPrimary">
           {message.message}
+        </Typography>
+        <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
+          {new Date(message.created_at * 1000).getHours()}
+          :
+          {new Date(message.created_at * 1000).getMinutes()}
         </Typography>
       </Paper>
     </Grid>

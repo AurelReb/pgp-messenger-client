@@ -68,7 +68,6 @@ const checkAuthMiddleware = (state, next, action) => {
       else if (!store.getState().user.pending_refresh)
         store.dispatch(refreshToken());
     } */
-  console.log(action);
   next(action);
 };
 
