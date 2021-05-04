@@ -81,15 +81,6 @@ const useStyles = makeStyles((theme) => ({
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
     overflowY: 'auto',
-    /* '&::-webkit-scrollbar': {
-      width: '10px',
-    },
-    '&::-webkit-scrollbar-track': {
-      background: '#555',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      background: '#888',
-    }, */
   },
 }));
 
