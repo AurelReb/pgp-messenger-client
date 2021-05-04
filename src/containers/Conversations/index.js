@@ -132,7 +132,6 @@ const Conversations = () => {
   };
 
   const handleEnterKey = (e) => {
-    console.log(e);
     if (e.charCode === 13 && !(e.shiftKey || e.ctrlKey)) {
       handleSendMessage(e);
     }

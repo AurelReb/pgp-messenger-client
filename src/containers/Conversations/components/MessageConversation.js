@@ -8,10 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import HighlightedMarkdown from '../../../components/HighlightedMarkdown';
 
 const useStyles = makeStyles((theme) => ({
-  messages: {
+  message: {
     padding: '10px 16px',
     borderRadius: '18px',
     backgroundColor: theme.palette.primary.main,
+    maxWidth: '70%',
+    overflowWrap: 'anywhere',
   },
   messageContainer: {
     '&:last-child': {
@@ -29,7 +31,7 @@ export default function MessageConversation({ message }) {
 
   return (
     <Grid className={classes.messageContainer} item container direction="row-reverse">
-      <Paper className={classes.messages}>
+      <Paper className={classes.message}>
         <Typography color="textPrimary">
           <HighlightedMarkdown>
             {message.message}
