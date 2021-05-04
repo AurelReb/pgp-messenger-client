@@ -122,12 +122,20 @@ const Conversations = () => {
     setTextFieldValue(e.target.value);
   };
 
-  const handleSendMessage = () => {
-    const messageContent = textFieldValue.trim();
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    const messageContent = textFieldValue.trim().replace('\n', '\n\n');
     if (messageContent !== '') {
       dispatch(postConversationMessage(currentConversation.id, messageContent));
     }
     setTextFieldValue('');
+  };
+
+  const handleEnterKey = (e) => {
+    console.log(e);
+    if (e.charCode === 13 && !(e.shiftKey || e.ctrlKey)) {
+      handleSendMessage(e);
+    }
   };
 
   const messagesDate = (message, index) => {
@@ -233,23 +241,25 @@ const Conversations = () => {
         </Grid>
         <Grid>
           <Paper className={classes.gridSend}>
-            <form className={classes.textInput} noValidate autoComplete="off">
+            <form className={classes.textInput} noValidate autoComplete="off" onSubmit={handleSendMessage}>
               <TextField
                 id="outlined-secondary"
                 onChange={handleTextFieldChange}
+                onKeyPress={handleEnterKey}
                 label="Enter your message here"
                 variant="outlined"
                 value={textFieldValue}
                 multiline
                 color="primary"
                 fullWidth
+                name="message"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleSendMessage}
+                        type="submit"
                         className={classes.sendButton}
                         endIcon={
                           <ArrowForwardIosRounded>send</ArrowForwardIosRounded>

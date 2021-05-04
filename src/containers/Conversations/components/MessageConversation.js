@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import HighlightedMarkdown from '../../../components/HighlightedMarkdown';
 
 const useStyles = makeStyles((theme) => ({
   messages: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dateTypo: {
     display: 'block',
+    marginRight: -7,
   },
 }));
 
@@ -29,12 +31,12 @@ export default function MessageConversation({ message }) {
     <Grid className={classes.messageContainer} item container direction="row-reverse">
       <Paper className={classes.messages}>
         <Typography color="textPrimary">
-          {message.message}
+          <HighlightedMarkdown>
+            {message.message}
+          </HighlightedMarkdown>
         </Typography>
         <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
-          {new Date(message.created_at * 1000).getHours()}
-          :
-          {new Date(message.created_at * 1000).getMinutes()}
+          {new Date(message.created_at * 1000).toLocaleTimeString()}
         </Typography>
       </Paper>
     </Grid>
