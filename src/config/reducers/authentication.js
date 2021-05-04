@@ -51,7 +51,7 @@ const getTokenSuccess = (access, refresh, keepConnected) => {
     localStorage.accessToken = access;
     localStorage.refreshToken = refresh;
     // refresh token validity
-    localStorage.refreTshokenValidityTimestamp = Date.now() + 60000 * 60 * 24 * 7 - 60000;
+    localStorage.refreshTokenValidityTimestamp = Date.now() + 60000 * 60 * 24 * 7 - 60000;
     // access token validity
     localStorage.accessTokenValidityTimestamp = Date.now() + 60000 * 59;
   }
