@@ -111,7 +111,6 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    console.log(messages);
     if (Object.keys(conversations).length === 0) {
       dispatch(getConversations());
     } else if (!messages[currentConversation.id]) {

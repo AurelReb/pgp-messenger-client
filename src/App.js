@@ -9,7 +9,6 @@ import {
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import Login from './containers/Login';
-import Home from './components/home';
 import Conversations from './containers/Conversations';
 
 import StateProvider, { useSelector, useTrackedState } from './config/store';
@@ -40,13 +39,10 @@ function AppRouter() {
     <ThemeProvider theme={getMuiThemeConfig(darkTheme)}>
       <CssBaseline />
       <RouteSwitch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
-        <ProtectedRoute exact path="/conversations">
+        <ProtectedRoute exact path="/">
           <Conversations />
         </ProtectedRoute>
         <Route exact path="/register">

@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
-import ArrowBack from '@material-ui/icons/ArrowBack';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
 
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { useDispatch, useSelector } from '../../../config/store';
 import { getToken } from '../../../config/reducers/authentication';
 
@@ -19,6 +19,7 @@ import logo from '../../../logo.f08';
 const useStyles = makeStyles((theme) => ({
   button: {
     width: 130,
+    alignSelf: 'center',
   },
 
   layout: {
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing(1),
+    textAlign: 'center',
   },
 
   submit: {
@@ -68,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
   center: {
     marginBottom: theme.spacing(2),
-    textAlign: 'center',
+    alignSelf: 'center',
   },
 
   error: {
@@ -91,9 +93,15 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.error);
+  const [keepConnected, setKeepConnected] = useState(false);
 
-  const submit = () => {
-    dispatch(getToken(username, password));
+  const handleChangeKeepConnected = (e) => {
+    setKeepConnected(e.target.checked);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getToken(username, password, keepConnected));
   };
 
   const handleChangeUsername = (e) => {
@@ -107,20 +115,6 @@ const LoginPage = () => {
   return (
     <div>
       <CssBaseline />
-      <header>
-        <Grid item xs={6} className={classes.left}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              startIcon={<ArrowBack>send</ArrowBack>}
-            >
-              Back
-            </Button>
-          </Link>
-        </Grid>
-      </header>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
@@ -129,10 +123,10 @@ const LoginPage = () => {
             </Link>
           </div>
           <Typography className={classes.header_text} variant="h5">
-            Sign in
+            Sign In
           </Typography>
-          <Grid container direction="row" spacing={2}>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+          <form onSubmit={handleSubmit} className={classes.form}>
+            <FormControl margin="normal">
               <TextField
                 required
                 label="Username"
@@ -141,9 +135,10 @@ const LoginPage = () => {
                 color="primary"
                 onChange={handleChangeUsername}
                 value={username}
+                error={Boolean(error)}
               />
-            </Grid>
-            <Grid type item xs={12} classes={{ root: classes.center }}>
+            </FormControl>
+            <FormControl margin="normal">
               <TextField
                 required
                 label="Password"
@@ -153,26 +148,41 @@ const LoginPage = () => {
                 color="primary"
                 onChange={handleChangePassword}
                 value={password}
+                error={Boolean(error)}
+
               />
-            </Grid>
-          </Grid>
-          <Grid item xs={6} classes={{ root: classes.center }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={submit}
-              className={classes.button}
-              endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
-            >
-              Login
-            </Button>
-          </Grid>
+            </FormControl>
+            <FormControl margin="normal">
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={keepConnected}
+                    onChange={handleChangeKeepConnected}
+                    name="keepConnected"
+                    color="primary"
+                  />
+              )}
+                label="Keep me logged in"
+              />
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className={classes.button}
+                endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+                fullWidth
+              >
+                Login
+              </Button>
+            </FormControl>
+          </form>
           <div className={classes.error}>{error}</div>
           <Link to="/register" className={classes.register}>
             <div>
               <center>
                 Have not an account yet? Register
-                {' '}
                 <br />
               </center>
             </div>

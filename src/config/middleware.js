@@ -32,8 +32,8 @@ function getLastEventTimestamp() {
 
 function dispatchInitialGets(store) {
   if (
-    (!localStorage.access_token_validity_timestamp
-        || localStorage.access_token_validity_timestamp > Date.now())
+    (!localStorage.accessToken_validity_timestamp
+        || localStorage.accessToken_validity_timestamp > Date.now())
         && !store.getState().assets.assets.length
   ) {
     stopAllIntervals();
@@ -47,7 +47,7 @@ const checkAuthMiddleware = (state, next, action) => {
     case GET_TOKEN_SUCCESS:
     // case REGISTER_SUCCESS:
       // dispatchInitialGets(store);
-      history.replace('/conversations');
+      history.replace('/');
       break;
 
       // case REFRESH_TOKEN_SUCCESS:
@@ -66,10 +66,11 @@ const checkAuthMiddleware = (state, next, action) => {
       action.response !== undefined
             && (action.response.status === 403 || action.response.status === 401)
     ) {
-      if (!localStorage.refresh_token) store.dispatch(logout());
+      if (!localStorage.refreshToken) store.dispatch(logout());
       else if (!store.getState().user.pending_refresh)
         store.dispatch(refreshToken());
     } */
+  // eslint-disable-next-line no-console
   console.log(action);
   next(action);
 };

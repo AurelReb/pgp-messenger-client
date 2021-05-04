@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const getAxiosInstance = () => {
-  const token = sessionStorage.getItem('access_token');
+  const token = sessionStorage.getItem('accessToken');
   if (token) {
     return axios.create({
       headers: {

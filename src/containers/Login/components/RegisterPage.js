@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -6,9 +6,16 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+
 import TextField from '@material-ui/core/TextField';
-import { ArrowBack, ArrowForwardIosRounded } from '@material-ui/icons';
+import { ArrowForwardIosRounded } from '@material-ui/icons';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import Checkbox from '@material-ui/core/Checkbox';
+import { useDispatch, useSelector } from '../../../config/store';
+import { registerUser, setError } from '../../../config/reducers/authentication';
 
 import logo from '../../../logo.f08';
 
@@ -47,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE11 issue.
     marginTop: theme.spacing(1),
+    textAlign: 'center',
   },
   submit: {
     marginTop: theme.spacing(3),
@@ -72,33 +80,74 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     maxWidth: 150,
   },
+  error: {
+    color: theme.palette.error.main,
+  },
 }));
 
 function RegisterPage() {
   const mounted = useRef(false);
   const classes = useStyles();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [pgpPublic, setPgpPublic] = useState('');
+  const [pgpPrivate, setPgpPrivate] = useState('');
+  const [twoFactorAuth, setTwoFactorAuth] = useState(false);
+  const error = useSelector((state) => state.error);
+  const [keepConnected, setKeepConnected] = useState(false);
+
+  const handleChangeKeepConnected = (e) => {
+    setKeepConnected(e.target.checked);
+  };
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!mounted.current) mounted.current = true;
   }, [mounted]);
 
+  const handleChangeUsername = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleChangeConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleChangePgpPublic = (e) => {
+    setPgpPublic(e.target.value);
+  };
+
+  const handleChangePgpPrivate = (e) => {
+    setPgpPrivate(e.target.value);
+  };
+
+  const handleChangeTwoFactorAuth = (e) => {
+    setTwoFactorAuth(e.target.checked);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password === confirmPassword)
+      dispatch(registerUser(
+        username,
+        password,
+        pgpPublic,
+        pgpPrivate,
+        twoFactorAuth,
+        keepConnected,
+      ));
+    else dispatch(setError('Passwords doesn\'t match'));
+  };
+
   return (
     <div>
       <CssBaseline />
-      <header>
-        <Grid item xs={6} className={classes.left}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              startIcon={<ArrowBack>send</ArrowBack>}
-            >
-              Back
-            </Button>
-          </Link>
-        </Grid>
-      </header>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
@@ -109,17 +158,20 @@ function RegisterPage() {
           <Typography className={classes.header_text} variant="h5">
             Sign Up
           </Typography>
-          <Grid container direction="row" spacing={2}>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+          <form onSubmit={handleSubmit} className={classes.form}>
+            <FormControl margin="normal">
               <TextField
                 required
                 id="Username"
                 label="Username"
                 variant="outlined"
                 color="primary"
+                value={username}
+                onChange={handleChangeUsername}
+                error={Boolean(error)}
               />
-            </Grid>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+            </FormControl>
+            <FormControl margin="normal">
               <TextField
                 required
                 id="outlined-password-input"
@@ -128,9 +180,12 @@ function RegisterPage() {
                 autoComplete="current-password"
                 variant="outlined"
                 color="primary"
+                value={password}
+                onChange={handleChangePassword}
+                error={Boolean(error)}
               />
-            </Grid>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+            </FormControl>
+            <FormControl margin="normal">
               <TextField
                 required
                 id="outlined-password-input"
@@ -139,9 +194,12 @@ function RegisterPage() {
                 autoComplete="current-password"
                 variant="outlined"
                 color="primary"
+                value={confirmPassword}
+                onChange={handleChangeConfirmPassword}
+                error={Boolean(error)}
               />
-            </Grid>
-            <Grid item xs={12} classes={{ root: classes.center }}>
+            </FormControl>
+            <FormControl margin="normal">
               <TextField
                 required
                 id="pubKey"
@@ -149,21 +207,62 @@ function RegisterPage() {
                 variant="outlined"
                 color="primary"
                 multiline="true"
+                value={pgpPublic}
+                onChange={handleChangePgpPublic}
+                error={Boolean(error)}
               />
-            </Grid>
-          </Grid>
-          <Grid item xs={6} classes={{ root: classes.center }}>
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            </FormControl>
+            <FormControl margin="normal">
+              <TextField
+                id="privKey"
+                label="Pgp Private Key"
+                variant="outlined"
+                color="primary"
+                multiline="true"
+                value={pgpPrivate}
+                onChange={handleChangePgpPrivate}
+              />
+            </FormControl>
+            <FormControl margin="normal">
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={twoFactorAuth}
+                    onChange={handleChangeTwoFactorAuth}
+                    name="twoFacorAuth"
+                    color="primary"
+                  />
+              )}
+                label="Two Factor Authentication"
+              />
+            </FormControl>
+            <FormControl margin="normal">
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={keepConnected}
+                    onChange={handleChangeKeepConnected}
+                    name="keepConnected"
+                    color="primary"
+                  />
+              )}
+                label="Keep me logged in"
+              />
+            </FormControl>
+            <br />
+            <FormControl margin="normal">
               <Button
                 variant="contained"
                 color="primary"
                 className={classes.button}
                 endIcon={<ArrowForwardIosRounded>send</ArrowForwardIosRounded>}
+                type="submit"
               >
                 Register
               </Button>
-            </Link>
-          </Grid>
+            </FormControl>
+          </form>
+          <div className={classes.error}>{error}</div>
           <Link to="/login" className={classes.login}>
             <center>
               Already have an account? Sign In
