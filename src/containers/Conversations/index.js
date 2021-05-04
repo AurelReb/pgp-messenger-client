@@ -19,6 +19,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
 
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
@@ -163,7 +164,18 @@ const Conversations = () => {
               </Fab>
             </IconButton>
           </Tooltip>
-          <Button onClick={() => dispatch(toggleDarkTheme)}>Dark theme</Button>
+          <Tooltip title="Change Theme">
+            <IconButton
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={() => dispatch(toggleDarkTheme)}
+            >
+              <Fab>
+                <Brightness4Icon>send</Brightness4Icon>
+              </Fab>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
