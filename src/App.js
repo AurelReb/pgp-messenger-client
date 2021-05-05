@@ -1,58 +1,65 @@
-import logo from "./logo.svg";
+import React, { useEffect, useRef } from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch as RouteSwitch,
   Route,
   useHistory,
   useLocation,
-} from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+} from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
-import Login from "./containers/Login";
-import Home from "./components/home";
-import Account from "./components/Account";
+import Login from './containers/Login';
+import Conversations from './containers/Conversations';
 
-import StateProvider, {
-  useDispatch,
-  useTrackedState,
-  toggleDarkTheme,
-} from "./config/store";
-import { getMuiThemeConfig } from "./config/theming";
-import { useEffect } from "react";
+import StateProvider, { useDispatch, useSelector, useTrackedState } from './config/store';
+import { getMuiThemeConfig } from './config/theming';
+import routerHistory from './config/history';
+import { JUST_LOGGED_IN } from './config/reducers/authentication';
 
-const useStyles = makeStyles((theme) => ({
-  logo: {
-    maxWidth: 100,
-  },
-}));
+const ProtectedRoute = (props) => {
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthenticated) history.replace('/login');
+  });
+
+  return isAuthenticated ? <Route {...props} /> : null;
+};
 
 function AppRouter() {
   const history = useHistory();
   const { pathname } = useLocation();
-  const { darkTheme } = useTrackedState();
+  const { darkTheme, isAuthenticated } = useTrackedState();
+  const mounted = useRef(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (pathname.substr(-1) !== "/") history.replace(`${pathname}/`);
+    if (pathname.substr(-1) !== '/') history.replace(`${pathname}/`);
   }, [pathname, history]);
+
+  const onComponentMount = () => {
+    if (isAuthenticated)
+      dispatch({ type: JUST_LOGGED_IN });
+    mounted.current = true;
+  };
+
+  useEffect(() => {
+    if (!mounted.current) onComponentMount();
+  });
 
   return (
     <ThemeProvider theme={getMuiThemeConfig(darkTheme)}>
       <CssBaseline />
       <RouteSwitch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
+        <ProtectedRoute exact path="/">
+          <Conversations />
+        </ProtectedRoute>
         <Route exact path="/register">
           <Login />
-        </Route>
-        <Route exact path="/account">
-          <Account />
         </Route>
       </RouteSwitch>
     </ThemeProvider>
@@ -62,13 +69,14 @@ function AppRouter() {
 export default function App() {
   return (
     <StateProvider>
-      <Router>
+      <Router history={routerHistory}>
         <AppRouter />
       </Router>
     </StateProvider>
   );
 }
 
+/*
 function Test() {
   const classes = useStyles();
 
@@ -90,7 +98,7 @@ function Test() {
               checked={darkTheme}
               onChange={handleToggleDarkTheme}
               name="checkedA"
-              inputProps={{ "aria-label": "secondary checkbox" }}
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
             />
           }
           label="Dark Theme"
@@ -99,3 +107,4 @@ function Test() {
     </>
   );
 }
+*/

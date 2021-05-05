@@ -1,19 +1,33 @@
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { clearError } from '../../config/reducers/authentication';
+import { useDispatch, useSelector } from '../../config/store';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+const Login = () => {
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-function Login() {
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.replace('/');
+    }
+    dispatch(clearError);
+  }, [history, isAuthenticated, location]);
+
   return (
-      <Switch>
-        <Route exact path="/login">
-          <LoginPage />
-        </Route>
-        <Route exact path="/register">
-          <RegisterPage />
-        </Route>
-      </Switch>
+    <Switch>
+      <Route exact path="/login">
+        <LoginPage />
+      </Route>
+      <Route exact path="/register">
+        <RegisterPage />
+      </Route>
+    </Switch>
   );
-}
+};
 
 export default Login;

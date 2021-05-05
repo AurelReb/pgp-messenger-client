@@ -1,6 +1,18 @@
 import { createMuiTheme } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
 import pink from '@material-ui/core/colors/pink';
+import blue from '@material-ui/core/colors/blue';
+
+const scrollBarLight = {
+  track: '#f1f1f1',
+  thumb: '#c1c1c1',
+  active: '#b1b1b1',
+};
+
+const scrollBarDark = {
+  track: '#2b2b2b',
+  thumb: '#6b6b6b',
+  active: '#959595',
+};
 
 export const lightTheme = createMuiTheme({
   palette: {
@@ -17,6 +29,29 @@ export const lightTheme = createMuiTheme({
         },
         code: {
           backgroundColor: 'gainsboro',
+        },
+        body: {
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: scrollBarLight.track,
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            backgroundColor: scrollBarLight.thumb,
+            minHeight: 24,
+            border: `3px solid ${scrollBarLight.track}`,
+          },
+          '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus': {
+            backgroundColor: scrollBarLight.active,
+          },
+          '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active': {
+            backgroundColor: scrollBarLight.active,
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: scrollBarLight.active,
+          },
+          '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
+            backgroundColor: scrollBarLight.track,
+          },
         },
       },
     },
@@ -50,6 +85,30 @@ export const darkTheme = createMuiTheme({
         },
         code: {
           backgroundColor: '#282a36',
+        },
+        body: {
+          scrollbarColor: `${scrollBarDark.thumb} ${scrollBarDark.track}`,
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: scrollBarDark.track,
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            backgroundColor: scrollBarDark.thumb,
+            minHeight: 24,
+            border: `3px solid ${scrollBarDark.track}`,
+          },
+          '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus': {
+            backgroundColor: scrollBarDark.active,
+          },
+          '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active': {
+            backgroundColor: scrollBarDark.active,
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: scrollBarDark.active,
+          },
+          '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
+            backgroundColor: scrollBarDark.track,
+          },
         },
       },
     },

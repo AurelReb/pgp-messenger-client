@@ -1,44 +1,38 @@
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
+import PropTypes from 'prop-types';
 import { createContainer } from 'react-tracked';
-import produce from 'immer';
-
-const TOGGLE_DARK_THEME = 'TOGGLE_DARK_THEME';
+import reducer from './reducers';
+import checkAuthMiddleware from './middleware';
 
 const initialState = {
   profile: {},
-  conversations: {},
+  conversations: [],
+  currentConversation: null,
+  messages: {},
   // Get user's device theme mode (light/dark)
   darkTheme:
-    localStorage.darkTheme === 'true' ||
-    (window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches),
-};
-
-const reducer = (state, action) => {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case TOGGLE_DARK_THEME:
-        draft.darkTheme = !draft.darkTheme;
-        localStorage.darkTheme = draft.darkTheme;
-        break;
-
-      default:
-        break;
-    }
-  });
-};
-
-const toggleDarkTheme = {
-  type: TOGGLE_DARK_THEME,
+    localStorage.darkTheme === 'true'
+    || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches),
+  isAuthenticated: Boolean(
+    sessionStorage.accessToken
+    || localStorage.refreshTokenValidityTimestamp > Date.now(),
+  ),
+  error: null,
 };
 
 const useValue = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const dispatchWithCallback = (dispatcher) => {
-    if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback);
-    else dispatch(dispatcher);
+  const dispatchWithCallback = (cycle) => (dispatcher) => {
+    if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback(false));
+    else {
+      if (!cycle)
+        checkAuthMiddleware(state, dispatchWithCallback(true), dispatcher);
+      else dispatch(dispatcher);
+      // eslint-disable-next-line no-console
+      console.log(state);
+    }
   };
-  return [state, dispatchWithCallback];
+  return [state, dispatchWithCallback(false)];
 };
 
 const {
@@ -50,13 +44,10 @@ const {
 } = createContainer(useValue);
 
 const StateProvider = ({ children }) => <Provider>{children}</Provider>;
-
-export {
-  useTracked,
-  useDispatch,
-  useSelector,
-  useTrackedState,
-  toggleDarkTheme,
+StateProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
+
+export { useTracked, useDispatch, useSelector, useTrackedState };
 
 export default StateProvider;
