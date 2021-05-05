@@ -152,7 +152,7 @@ const Conversations = () => {
 
     const currDate = new Date(message.created_at * 1000);
     if (dateBefore.toLocaleDateString() !== currDate.toLocaleDateString()) {
-      dateBefore = (new Date(message.created_at * 1000));
+      dateBefore = currDate;
       return (
         <Paper className={classes.dateBubble}>
           <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
