@@ -17,6 +17,11 @@ import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NavigationIcon from "@material-ui/icons/Navigation";
 import Fab from "@material-ui/core/Fab";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Icon from "@material-ui/core/IconButton";
+import { green } from "@material-ui/core/colors";
 
 function Profile() {
   const profile = useSelector((state) => state.profile);
@@ -30,6 +35,7 @@ function Profile() {
   });
 
   const useStyles = makeStyles((theme) => ({
+    height: 90,
     root: {
       "& > *": {
         margin: theme.spacing(1),
@@ -42,57 +48,76 @@ function Profile() {
       width: theme.spacing(7),
       height: theme.spacing(7),
     },
+    box: {
+      height: 80,
+      margin: theme.spacing(5),
+      height: 100 ,/* Magic here */
+ 
+    },
   }));
 
   const classes = useStyles();
 
   return (
     <div>
-      <div>
-        <Avatar
-          alt="Aurelou Test"
-          src="./../../logo.svg"
-          className={classes.large}
-        />
-        <h2>user :</h2>
-        <h1>{profile.username}</h1>
-      </div>
-      <div className={classes.margin}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircle />
-          </Grid>
-          <Grid item>
-            <TextField id="input-with-icon-grid" label="Username" />
-          </Grid>
-        </Grid>
-      </div>
-      <div className={classes.margin}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircle />
-          </Grid>
-          <Grid item>
-            <TextField id="input-with-icon-grid" label="Password" />
-          </Grid>
-        </Grid>
-      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CssBaseline />
+        <Container fixed>
+          <div style={{ justifyContent: "center" }} className="logo">
+            <span>
+              <h2>user : </h2>
+              <h1>{profile.username}</h1>
+            </span>
+            <div className={classes.box}>
+              <Grid container spacing={1} alignItems="flex-end">
+                <Grid item>
+                  <AccountCircle />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    id="input-with-icon-grid"
+                    label="Username"
+                    defaultValue={profile.username}
+                  />
+                </Grid>
+              </Grid>
+            </div>
+            <div className={classes.box}>
+              <Grid container spacing={1} alignItems="flex-end">
+                <Grid item>
+                  <AccountCircle />
+                </Grid>
+                <Grid item>
+                  <TextField id="input-with-icon-grid" label="Password" />
+                </Grid>
+              </Grid>
+            </div>
 
-      <div className={classes.margin}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircle />
-          </Grid>
-          <Grid item>
-            <TextField id="input-with-icon-grid" label="PgpKey" />
-          </Grid>
-        </Grid>
-      </div>
-      <div>
-        <Fab variant="extended">
-          <NavigationIcon className={classes.extendedIcon} />
-          Submit Changes
-        </Fab>
+            <div className={classes.box}>
+              <Grid container spacing={1} alignItems="flex-end">
+                <Grid item>
+                  <AccountCircle />
+                </Grid>
+                <Grid item>
+                  <TextField id="input-with-icon-grid" label="PgpKey" />
+                </Grid>
+              </Grid>
+            </div>
+            <div>
+              <Fab variant="extended">
+                <NavigationIcon className={classes.extendedIcon} />
+                Submit Changes
+              </Fab>
+              <Button style={{ color: green[500] }}>Add Pgp key</Button>
+            </div>
+          </div>
+        </Container>
       </div>
     </div>
   );
