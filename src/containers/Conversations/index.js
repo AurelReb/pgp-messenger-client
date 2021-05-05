@@ -19,7 +19,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
 
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
@@ -92,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100% - 64px - 50px )',
     overflowY: 'auto',
   },
+  darkButton: {
+    marginLeft: 'auto',
+    color: 'white',
+  },
 }));
 
 const Conversations = () => {
@@ -151,23 +156,21 @@ const Conversations = () => {
           <Typography variant="h6" noWrap>
             {currentConversation && currentConversation.name}
           </Typography>
-          <Tooltip title="Change Theme">
+          <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
             <IconButton
               variant="contained"
-              color="primary"
               type="submit"
               className={classes.button}
               onClick={() => dispatch(toggleDarkTheme)}
             >
-              <Fab>
-                <Brightness4Icon>send</Brightness4Icon>
-              </Fab>
+              <Grid className={classes.darkButton}>
+                {theme.palette.type === 'light' ? <Brightness3Icon>send</Brightness3Icon> : <WbSunnyIcon>send</WbSunnyIcon>}
+              </Grid>
             </IconButton>
           </Tooltip>
           <Tooltip title="Logout">
             <IconButton
               variant="contained"
-              color="primary"
               type="submit"
               onClick={handleLogout}
             >
