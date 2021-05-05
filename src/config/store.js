@@ -13,17 +13,27 @@ const initialState = {
   darkTheme:
     localStorage.darkTheme === 'true'
     || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches),
+  isAuthenticated: Boolean(
+    sessionStorage.accessToken
+    || localStorage.refreshTokenValidityTimestamp > Date.now(),
+  ),
+  error: null,
 };
 
 const useValue = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const dispatchWithCallback = (dispatcher) => {
-    if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback);
+  const dispatchWithCallback = (cycle) => (dispatcher) => {
+    if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback(false));
     else {
-      checkAuthMiddleware(state, dispatch, dispatcher);
+      if (!cycle) {
+        checkAuthMiddleware(state, dispatchWithCallback(true), dispatcher);
+        // eslint-disable-next-line no-console
+        console.log(state);
+      }
+      else dispatch(dispatcher);
     }
   };
-  return [state, dispatchWithCallback];
+  return [state, dispatchWithCallback(false)];
 };
 
 const {

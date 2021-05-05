@@ -1,10 +1,14 @@
-/* function stopAllIntervals() {
+import history from './history';
+import { GET_TOKEN_SUCCESS, JUST_LOGGED_IN, logout, LOGOUT, refreshToken } from './reducers/authentication';
+import { getConversations } from './reducers/conversations';
+
+function stopAllIntervals() {
   const index = setInterval(() => null, 10000);
   for (let i = 0; i <= index; i += 1) {
     clearInterval(i);
   }
 }
-
+/*
 function getLastEventTimestamp() {
   BotApi.getLastEventTimestamp()
     .then((response) => {
@@ -26,48 +30,49 @@ function getLastEventTimestamp() {
       store.dispatch(getBots());
     });
 }
-
-function dispatchInitialGets(store) {
+*/
+function dispatchInitialGets(state, dispatch) {
   if (
-    (!localStorage.access_token_validity_timestamp
-        || localStorage.access_token_validity_timestamp > Date.now())
-        && !store.getState().assets.assets.length
+    (!localStorage.accessTokenValidityTimestamp
+      || localStorage.accessTokenValidityTimestamp > Date.now())
+      && !state.conversations.length
   ) {
     stopAllIntervals();
-    store.dispatch(getAssets());
-    store.dispatch(recordAssets(Date.now() - 7200000));
+    dispatch(getConversations());
+  }
+  if (localStorage.rememberLogin && localStorage.refreshTokenValidityTimestamp > Date.now()) {
+    setInterval(() => dispatch(refreshToken()), localStorage.accessTokenValidityTimestamp);
   }
 }
-*/
+
 const checkAuthMiddleware = (state, next, action) => {
-  /*
   switch (action.type) {
+    case JUST_LOGGED_IN:
     case GET_TOKEN_SUCCESS:
-      case REGISTER_SUCCESS:
-        dispatchInitialGets(store);
-        history.push('/conversations');
+    // case REGISTER_SUCCESS:
+      history.replace('/');
+      dispatchInitialGets(state, next);
+      break;
 
-        break;
+      // case REFRESH_TOKEN_SUCCESS:
+      // dispatchInitialGets();
 
-      case REFRESH_TOKEN_SUCCESS:
-        dispatchInitialGets();
-
-      case LOGOUT:
-        stopAllIntervals();
-        history.push('/login');
+    case LOGOUT:
+      stopAllIntervals();
+      history.push('/login');
+      break;
 
     default:
       break;
   }
-
-    if (
-      action.response !== undefined
-            && (action.response.status === 403 || action.response.status === 401)
-    ) {
-      if (!localStorage.refresh_token) store.dispatch(logout());
-      else if (!store.getState().user.pending_refresh)
-        store.dispatch(refreshToken());
-    } */
+  if (
+    action.error !== undefined
+    && (action.error.status === 403 || action.error.status === 401)
+  ) {
+    next(logout);
+  }
+  // eslint-disable-next-line no-console
+  console.log(action);
   next(action);
 };
 

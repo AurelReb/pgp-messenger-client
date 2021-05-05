@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -11,12 +10,17 @@ import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
 
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
@@ -27,10 +31,16 @@ import {
   getConversations,
   postConversationMessage,
 } from '../../config/reducers/conversations';
+import { toggleDarkTheme } from '../../config/reducers';
+import { logout } from '../../config/reducers/authentication';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    marginLeft: 'auto',
+  },
+
   root: {
     display: 'flex',
   },
@@ -83,15 +93,10 @@ const useStyles = makeStyles((theme) => ({
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {
-      width: '10px',
-    },
-    '&::-webkit-scrollbar-track': {
-      background: '#555',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      background: '#888',
-    },
+  },
+  darkButton: {
+    marginLeft: 'auto',
+    color: 'white',
   },
   dateBubble: {
     padding: '10px 16px',
@@ -117,6 +122,10 @@ const Conversations = () => {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout);
   };
 
   const handleTextFieldChange = (e) => {
@@ -193,7 +202,6 @@ const Conversations = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbarColor}>
           <IconButton
@@ -208,6 +216,29 @@ const Conversations = () => {
           <Typography variant="h6" noWrap>
             {currentConversation && currentConversation.name}
           </Typography>
+          <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
+            <IconButton
+              variant="contained"
+              type="submit"
+              className={classes.button}
+              onClick={() => dispatch(toggleDarkTheme)}
+            >
+              <Grid className={classes.darkButton}>
+                {theme.palette.type === 'light' ? <Brightness3Icon>send</Brightness3Icon> : <WbSunnyIcon>send</WbSunnyIcon>}
+              </Grid>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Logout">
+            <IconButton
+              variant="contained"
+              type="submit"
+              onClick={handleLogout}
+            >
+              <Fab color="secondary">
+                <ExitToAppIcon>send</ExitToAppIcon>
+              </Fab>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

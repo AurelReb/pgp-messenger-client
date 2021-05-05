@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     maxWidth: '70%',
     overflowWrap: 'anywhere',
+    color: 'white',
   },
   messageContainer: {
     '&:last-child': {

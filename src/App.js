@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch as RouteSwitch,
   Route,
   useHistory,
@@ -9,40 +9,57 @@ import {
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import Login from './containers/Login';
-import Home from './components/home';
-import Account from './components/Account';
 import Conversations from './containers/Conversations';
 
-import StateProvider, { useTrackedState } from './config/store';
+import StateProvider, { useDispatch, useSelector, useTrackedState } from './config/store';
 import { getMuiThemeConfig } from './config/theming';
+import routerHistory from './config/history';
+import { JUST_LOGGED_IN } from './config/reducers/authentication';
+
+const ProtectedRoute = (props) => {
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthenticated) history.replace('/login');
+  });
+
+  return isAuthenticated ? <Route {...props} /> : null;
+};
 
 function AppRouter() {
   const history = useHistory();
   const { pathname } = useLocation();
-  const { darkTheme } = useTrackedState();
+  const { darkTheme, isAuthenticated } = useTrackedState();
+  const mounted = useRef(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (pathname.substr(-1) !== '/') history.replace(`${pathname}/`);
   }, [pathname, history]);
 
+  const onComponentMount = () => {
+    if (isAuthenticated)
+      dispatch({ type: JUST_LOGGED_IN });
+    mounted.current = true;
+  };
+
+  useEffect(() => {
+    if (!mounted.current) onComponentMount();
+  });
+
   return (
     <ThemeProvider theme={getMuiThemeConfig(darkTheme)}>
       <CssBaseline />
       <RouteSwitch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/conversations">
+        <ProtectedRoute exact path="/">
           <Conversations />
-        </Route>
+        </ProtectedRoute>
         <Route exact path="/register">
           <Login />
-        </Route>
-        <Route exact path="/account">
-          <Account />
         </Route>
       </RouteSwitch>
     </ThemeProvider>
@@ -52,7 +69,7 @@ function AppRouter() {
 export default function App() {
   return (
     <StateProvider>
-      <Router>
+      <Router history={routerHistory}>
         <AppRouter />
       </Router>
     </StateProvider>
