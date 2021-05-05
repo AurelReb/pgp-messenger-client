@@ -111,6 +111,7 @@ const Conversations = () => {
   const currentConversation = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
   const messages = useSelector((state) => state.messages);
+  let dateBefore = new Date();
 
   const dispatch = useDispatch();
 
@@ -139,10 +140,23 @@ const Conversations = () => {
 
   const messagesDate = (message, index) => {
     if (index === 0) {
+      dateBefore = new Date(message.created_at * 1000);
       return (
         <Paper className={classes.dateBubble}>
           <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
             {new Date(message.created_at * 1000).toLocaleDateString()}
+          </Typography>
+        </Paper>
+      );
+    }
+
+    const currDate = new Date(message.created_at * 1000);
+    if (dateBefore.toLocaleDateString() !== currDate.toLocaleDateString()) {
+      dateBefore = (new Date(message.created_at * 1000));
+      return (
+        <Paper className={classes.dateBubble}>
+          <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
+            {currDate.toLocaleDateString()}
           </Typography>
         </Paper>
       );
