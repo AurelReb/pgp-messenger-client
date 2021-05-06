@@ -98,7 +98,9 @@ export default function AddConversation() {
             Please write the name of the new conversation and add at least one username.
           </DialogContentText>
           <TextField
+            required
             autoFocus
+            inputProps={{ maxLength: 64 }}
             onChange={handleNewConvName}
             margin="dense"
             id="NewConvName"
@@ -143,7 +145,7 @@ export default function AddConversation() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={createConversation} color="primary">
+          <Button onClick={createConversation} color="primary" disabled={!newConvName}>
             Create
           </Button>
         </DialogActions>

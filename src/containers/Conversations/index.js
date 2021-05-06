@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
   sendButton: {
     padding: '10px',
     marginLeft: '10px',
-
   },
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
