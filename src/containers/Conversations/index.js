@@ -27,9 +27,7 @@ import SingleConversation from './components/SingleConversation';
 
 import { useDispatch, useSelector } from '../../config/store';
 import {
-  getConversationMessages,
-  getConversations,
-  postConversationMessage,
+  getConversationMessages, postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
 import { logout } from '../../config/reducers/authentication';
@@ -175,9 +173,7 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(conversations).length === 0) {
-      dispatch(getConversations());
-    } else if (!messages[currentConversation.id]) {
+    if (conversations.length && !messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
     }
   });
