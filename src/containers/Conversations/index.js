@@ -8,6 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/Add';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -21,6 +22,11 @@ import ArrowForwardIosRounded from '@material-ui/icons/ArrowForwardIosRounded';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
@@ -28,7 +34,6 @@ import SingleConversation from './components/SingleConversation';
 import { useDispatch, useSelector } from '../../config/store';
 import {
   getConversationMessages,
-  getConversations,
   postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
@@ -112,6 +117,7 @@ const Conversations = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState('');
+  const [open, setOpen] = React.useState(false);
   const conversations = useSelector((state) => state.conversations);
   const currentConversation = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
@@ -119,6 +125,14 @@ const Conversations = () => {
   let dateBefore = new Date();
 
   const dispatch = useDispatch();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -175,9 +189,7 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(conversations).length === 0) {
-      dispatch(getConversations());
-    } else if (!messages[currentConversation.id]) {
+    if (conversations.length && !messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
     }
   });
@@ -228,6 +240,61 @@ const Conversations = () => {
               </Grid>
             </IconButton>
           </Tooltip>
+          <Tooltip title="Add a new conversation">
+            <IconButton
+              variant="contained"
+              onClick={handleClickOpen}
+            >
+              <Fab color="secondary">
+                <AddIcon />
+              </Fab>
+            </IconButton>
+          </Tooltip>
+          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">New conversation</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Please write the name of the new conversation and add at least one username.
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Conversation name"
+                fullWidth
+              />
+
+              <Grid container alignItems="flex-end">
+                <Grid xs={11} item>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="To"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid xs={1} item>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    className={classes.sendButton}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleClose} color="primary">
+                Create
+              </Button>
+            </DialogActions>
+          </Dialog>
           <Tooltip title="Logout">
             <IconButton
               variant="contained"
@@ -267,6 +334,7 @@ const Conversations = () => {
             variant="permanent"
             open
           >
+            {/* ICI L'ESPACE EN HAUT A GAUCHE ! */}
             {drawer}
           </Drawer>
         </Hidden>

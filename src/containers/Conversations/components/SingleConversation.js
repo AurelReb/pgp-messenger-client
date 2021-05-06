@@ -17,7 +17,6 @@ export default function SingleConversation({ conversation }) {
   };
 
   const handleDeleteConversation = () => {
-    console.log(conversation);
     dispatch(deleteConversation(conversation.id));
   };
 
