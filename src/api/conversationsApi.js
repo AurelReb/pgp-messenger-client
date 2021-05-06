@@ -12,7 +12,7 @@ const postConversationMessage = (conversationId, messageContent) =>
 const postConversation = (conversationName, usersList) =>
   httpClient.post(`${CONVERSATIONS_API_URL}`, {
     name: conversationName,
-    usersList,
+    users: usersList,
   });
 
 const deleteConversation = (conversationId) =>

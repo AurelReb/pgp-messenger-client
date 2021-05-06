@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from '../../../config/store';
@@ -29,18 +30,21 @@ export default function SingleConversation({ conversation }) {
   const classes = useStyles();
 
   return (
-    <ListItem button className={classes.convName}>
-      <ListItemText
-        primary={conversation.name}
-        key={conversation.name}
-        onClick={handleSelectConversation}
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete" onClick={handleDeleteConversation}>
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
+    <>
+      <ListItem button className={classes.convName}>
+        <ListItemText
+          primary={conversation.name}
+          key="ConvName"
+          onClick={handleSelectConversation}
+        />
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="delete" onClick={handleDeleteConversation}>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+      <Divider />
+    </>
   );
 }
 SingleConversation.propTypes = {

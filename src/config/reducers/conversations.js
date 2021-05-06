@@ -7,8 +7,10 @@ const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
 const POST_CONVERSATION_MESSAGES_SUCCESS = 'POST_CONVERSATION_MESSAGES_SUCCESS';
 const POST_CONVERSATION_MESSAGES_FAILURE = 'POST_CONVERSATION_MESSAGES_FAILURE';
-const DELETE_CONVERSATION_SUCCESS = 'DELETE_CONVERSATION_SUCESS';
+const DELETE_CONVERSATION_SUCCESS = 'DELETE_CONVERSATION_SUCCESS';
 const DELETE_CONVERSATION_FAILURE = 'DELETE_CONVERSATION_FAILURE';
+const POST_CONVERSATION_SUCCESS = 'POST_CONVERSATION_SUCCESS';
+const POST_CONVERSATION_FAILURE = 'POST_CONVERSATION_FAILURE';
 
 const conversationsReducer = (draft, action) => {
   let index;
@@ -49,6 +51,14 @@ const conversationsReducer = (draft, action) => {
       }
       break;
     case DELETE_CONVERSATION_FAILURE:
+      // handle error here
+      break;
+    case POST_CONVERSATION_SUCCESS:
+      draft.conversations.push(action.conversation);
+      draft.currentConversation = action.conversation.id;
+      break;
+    case POST_CONVERSATION_FAILURE:
+      // handle error here
       break;
     default:
       break;
@@ -136,6 +146,28 @@ export const deleteConversation = (conversationId) => {
       dispatch(deleteConversationSuccess(conversationId));
     } catch (error) {
       dispatch(deleteConversationFailure(error.response));
+    }
+  };
+};
+
+export const postConversationSuccess = (conversation) => {
+  return { type: POST_CONVERSATION_SUCCESS, conversation };
+};
+
+export const postConversationFailure = (error) => {
+  return { type: POST_CONVERSATION_FAILURE, error };
+};
+
+export const postConversation = (conversationName, usersList) => {
+  return async (dispatch) => {
+    try {
+      const { data: conversation } = await conversationsApi.postConversation(
+        conversationName,
+        usersList,
+      );
+      dispatch(postConversationSuccess(conversation));
+    } catch (error) {
+      dispatch(postConversationFailure(error.response));
     }
   };
 };
