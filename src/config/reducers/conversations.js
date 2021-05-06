@@ -7,8 +7,11 @@ const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
 const POST_CONVERSATION_MESSAGES_SUCCESS = 'POST_CONVERSATION_MESSAGES_SUCCESS';
 const POST_CONVERSATION_MESSAGES_FAILURE = 'POST_CONVERSATION_MESSAGES_FAILURE';
+const DELETE_CONVERSATION_SUCCESS = 'DELETE_CONVERSATION_SUCESS';
+const DELETE_CONVERSATION_FAILURE = 'DELETE_CONVERSATION_FAILURE';
 
 const conversationsReducer = (draft, action) => {
+  let index;
   switch (action.type) {
     case GET_CONVERSATIONS_SUCCESS:
       draft.conversations = action.conversations;
@@ -34,6 +37,18 @@ const conversationsReducer = (draft, action) => {
       break;
     case POST_CONVERSATION_MESSAGES_FAILURE:
       // handle error here
+      break;
+    case DELETE_CONVERSATION_SUCCESS:
+      delete draft.messages[action.conversationId];
+      index = draft.conversations.findIndex((x) => x.id === action.conversationId);
+      draft.conversations.splice(index, 1);
+      if (draft.conversations.length === 0) {
+        draft.currentConversation = null;
+      } else {
+        draft.currentConversation = draft.conversations[0].id;
+      }
+      break;
+    case DELETE_CONVERSATION_FAILURE:
       break;
     default:
       break;
@@ -100,6 +115,27 @@ export const postConversationMessage = (conversationId, messageContent) => {
       dispatch(postConversationMessageSuccess(conversationId, message));
     } catch (error) {
       dispatch(postConversationMessageFailure(error.response));
+    }
+  };
+};
+
+export const deleteConversationSuccess = (conversationId) => {
+  return { type: DELETE_CONVERSATION_SUCCESS, conversationId };
+};
+
+export const deleteConversationFailure = (error) => {
+  return { type: DELETE_CONVERSATION_FAILURE, error };
+};
+
+export const deleteConversation = (conversationId) => {
+  return async (dispatch) => {
+    try {
+      await conversationsApi.deleteConversation(
+        conversationId,
+      );
+      dispatch(deleteConversationSuccess(conversationId));
+    } catch (error) {
+      dispatch(deleteConversationFailure(error.response));
     }
   };
 };

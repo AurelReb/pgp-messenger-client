@@ -9,6 +9,13 @@ const getConversationMessages = (id) =>
 const postConversationMessage = (conversationId, messageContent) =>
   httpClient.post(`${CONVERSATIONS_API_URL}${conversationId}/messages/`, { message: messageContent });
 
-const conversationsApi = { getConversations, getConversationMessages, postConversationMessage };
+const deleteConversation = (conversationId) =>
+  httpClient.delete(`${CONVERSATIONS_API_URL}${conversationId}/`);
+
+const conversationsApi = {
+  getConversations,
+  getConversationMessages,
+  postConversationMessage,
+  deleteConversation };
 
 export default conversationsApi;

@@ -2,51 +2,46 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Grid } from '@material-ui/core';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from '../../../config/store';
-import { changeCurrentConversation } from '../../../config/reducers/conversations';
+import { changeCurrentConversation, deleteConversation } from '../../../config/reducers/conversations';
 
 export default function SingleConversation({ conversation }) {
   const dispatch = useDispatch();
 
   const handleSelectConversation = () => {
     dispatch(changeCurrentConversation(conversation.id));
-    dispatch((conversation.id));
+  };
+
+  const handleDeleteConversation = () => {
+    console.log(conversation);
+    dispatch(deleteConversation(conversation.id));
   };
 
   const useStyles = makeStyles(() => ({
-
-    gridClasse: {
-      display: 'flex',
-    },
     convName: {
-      flex: 1,
-    },
-    deleteIcon: {
-      flex: 2,
-      color: 'palette.text.disabled',
+      overflowWrap: 'anywhere',
     },
   }));
 
   const classes = useStyles();
 
   return (
-    <Grid className={classes.gridClasse}>
-      <ListItem
-        className={classes.convName}
-        button
-        key={conversation.id}
+    <ListItem button className={classes.convName}>
+      <ListItemText
+        primary={conversation.name}
+        key={conversation.name}
         onClick={handleSelectConversation}
-      >
-        <ListItemText primary={conversation.name} />
-      </ListItem>
-      <IconButton className={classes.DeleteIcon} aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
-    </Grid>
+      />
+      <ListItemSecondaryAction>
+        <IconButton edge="end" aria-label="delete" onClick={handleDeleteConversation}>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
   );
 }
 SingleConversation.propTypes = {
