@@ -111,7 +111,6 @@ export default function AddConversation() {
             <Grid xs={11} item>
 
               <TextField
-                autoFocus
                 onChange={handleNewUser}
                 margin="dense"
                 id="newUsername"
