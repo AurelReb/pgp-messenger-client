@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarColor: {
     backgroundColor: theme.palette.primary.dark,
+    height: '60px',
   },
   textInput: {
     flex: '9',
@@ -103,6 +104,16 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '18px',
     backgroundColor: theme.palette.action.hover,
     margin: 'auto',
+  },
+  dividerBottom: {
+    height: 'calc(100% - 90px - 60px )',
+    overflowY: 'auto',
+  },
+  convBar: {
+    height: '100vh',
+  },
+  addButtonCenter: {
+    textAlign: 'center',
   },
 }));
 
@@ -187,14 +198,18 @@ const Conversations = () => {
   }, [messages, currentConversation]);
 
   const drawer = (
-    <div>
+    <div className={classes.convBar}>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
+      <List className={classes.dividerBottom}>
         {conversations.map((conversation) => (
           <SingleConversation conversation={conversation} key={conversation.id} />
         ))}
       </List>
+      <Grid className={classes.addButtonCenter}>
+        <Divider />
+        <AddConversation />
+      </Grid>
     </div>
   );
 
@@ -226,7 +241,7 @@ const Conversations = () => {
               </Grid>
             </IconButton>
           </Tooltip>
-          <AddConversation />
+
           <Tooltip title="Logout">
             <IconButton
               variant="contained"
