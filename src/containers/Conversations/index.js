@@ -33,6 +33,7 @@ import {
 import { toggleDarkTheme } from '../../config/reducers';
 import { logout } from '../../config/reducers/authentication';
 import AddConversation from './components/AddConversation';
+import ConversationInfos from './components/ConversationInfos';
 
 const drawerWidth = 240;
 
@@ -227,6 +228,11 @@ const Conversations = () => {
           </IconButton>
           <Typography variant="h6" noWrap>
             {currentConversation && currentConversation.name}
+            <ConversationInfos
+              conversation={currentConversation}
+              key={currentConversation
+              && currentConversation.id}
+            />
           </Typography>
           <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
             <IconButton
