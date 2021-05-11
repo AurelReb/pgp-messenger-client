@@ -227,11 +227,9 @@ const Conversations = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {currentConversation && currentConversation.name}
             <ConversationInfos
               conversation={currentConversation}
-              key={currentConversation
-              && currentConversation.id}
+              key={currentConversation && currentConversation.id}
             />
           </Typography>
           <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>

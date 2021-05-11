@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import InfoIcon from '@material-ui/icons/Info';
 
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,43 +10,124 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { useDispatch } from '../../../config/store';
 
 import { deleteConversation } from '../../../config/reducers/conversations';
 
 const useStyles = makeStyles(() => ({
-  deleteButton: {
+  infoButton: {
     verticalAlign: 'sub',
+  },
+  deleteButton: {
+    width: '-webkit-fill-available',
   },
 }));
 
 export default function ConversationInfos({ conversation }) {
+  const ITEM_HEIGHT = 60;
+
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [users, setUsers] = useState([]);
+  const open = Boolean(anchorEl);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleUsersList = () => {
+    setUsers(conversation.users);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClickUsersList = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseUsersList = () => {
+    setAnchorEl(null);
+  };
+
+  /* handle info dialog */
+
+  const handleClickOpenInfo = () => {
+    setOpenInfo(true);
+  };
+
+  const handleClickCloseInfo = () => {
+    setOpenInfo(false);
+  };
+
+  /* handle delete dialog */
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDeleteButton = () => {
+    setOpenDelete(false);
   };
 
   const handleCloseDelete = () => {
     dispatch(deleteConversation(conversation.id));
-    setOpen(false);
+    setOpenDelete(false);
   };
 
   return (
     <>
-      <IconButton className={classes.deleteButton} aria-label="delete" onClick={handleClickOpen}>
-        <DeleteIcon />
+      {conversation && conversation.name}
+      <IconButton className={classes.infoButton} aria-label="info" onClick={handleClickOpenInfo}>
+        <InfoIcon />
       </IconButton>
+      {/* Dialog for info button */}
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={openInfo}
+        onClose={handleClickCloseInfo}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{conversation && conversation.name}</DialogTitle>
+        <DialogContent>
+          <Button className={classes.deleteButton} variant="outlined" color="primary" onClick={handleClickUsersList}>
+            List of users
+          </Button>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open}
+            onClose={handleCloseUsersList}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: '20ch',
+              },
+            }}
+          >
+            {handleUsersList}
+            {users.map((user) => (
+              <MenuItem key={user} onClick={handleCloseUsersList}>
+                {user.name}
+              </MenuItem>
+            ))}
+          </Menu>
+        </DialogContent>
+        <DialogContent>
+          <Button className={classes.deleteButton} variant="outlined" color="secondary" onClick={handleClickOpenDelete}>
+            Delete
+          </Button>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickCloseInfo} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Dialog for delete button */}
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDeleteButton}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -57,7 +138,7 @@ export default function ConversationInfos({ conversation }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseDeleteButton} color="primary">
             Cancel
           </Button>
           <Button onClick={handleCloseDelete} color="secondary" autoFocus>

@@ -3,6 +3,7 @@ import httpClient from './httpClient';
 import { CONVERSATIONS_API_URL } from './constants';
 
 const getConversations = () => httpClient.get(CONVERSATIONS_API_URL);
+const getOneConversation = (id) => httpClient.get(`${CONVERSATIONS_API_URL}${id}/`);
 const getConversationMessages = (id) =>
   httpClient.get(`${CONVERSATIONS_API_URL}${id}/messages/`);
 
@@ -23,6 +24,7 @@ const conversationsApi = {
   getConversationMessages,
   postConversationMessage,
   deleteConversation,
-  postConversation };
+  postConversation,
+  getOneConversation };
 
 export default conversationsApi;

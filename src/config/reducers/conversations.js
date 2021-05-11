@@ -2,6 +2,8 @@ import conversationsApi from '../../api/conversationsApi';
 
 const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
 const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
+const GET_ONE_CONVERSATION_SUCCESS = 'GET_ONE_CONVERSATION_SUCCESS';
+const GET_ONE_CONVERSATION_FAILURE = 'GET_ONE_CONVERSATION_FAILURE';
 const GET_CONVERSATION_MESSAGES_SUCCESS = 'GET_CONVERSATION_MESSAGES_SUCCESS';
 const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
@@ -58,6 +60,12 @@ const conversationsReducer = (draft, action) => {
       draft.currentConversation = action.conversation.id;
       break;
     case POST_CONVERSATION_FAILURE:
+      // handle error here
+      break;
+    case GET_ONE_CONVERSATION_SUCCESS:
+      draft.convUsers = action.conversation.users;
+      break;
+    case GET_ONE_CONVERSATION_FAILURE:
       // handle error here
       break;
     default:
@@ -168,6 +176,27 @@ export const postConversation = (conversationName, usersList) => {
       dispatch(postConversationSuccess(conversation));
     } catch (error) {
       dispatch(postConversationFailure(error.response));
+    }
+  };
+};
+
+export const getOneConversationSuccess = (conversation) => {
+  return { type: GET_ONE_CONVERSATION_SUCCESS, conversation };
+};
+
+export const getOneConversationFailure = (error) => {
+  return { type: GET_ONE_CONVERSATION_FAILURE, error };
+};
+
+export const getOneConversation = (conversationId) => {
+  return async (dispatch) => {
+    try {
+      const { data: conversation } = await conversationsApi.getOneConversation(
+        conversationId,
+      );
+      dispatch(getOneConversationSuccess(conversation));
+    } catch (error) {
+      dispatch(getOneConversationFailure(error.response));
     }
   };
 };

@@ -9,6 +9,7 @@ const initialState = {
   conversations: [],
   currentConversation: null,
   messages: {},
+  convUsers: [],
   // Get user's device theme mode (light/dark)
   darkTheme:
     localStorage.darkTheme === 'true'
