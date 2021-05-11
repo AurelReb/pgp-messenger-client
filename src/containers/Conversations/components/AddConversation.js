@@ -35,7 +35,7 @@ export default function AddConversation() {
   const [open, setOpen] = useState(false);
   const [newConvName, setNewConvName] = useState('');
   const [newUserName, setNewUserName] = useState('');
-  const [users, setUsers] = useState([]);
+  const [usersDisplay, setUsersDisplay] = useState([]);
   const [listOfUsersString, setListOfUsersString] = useState('');
 
   const handleClickOpen = () => {
@@ -44,20 +44,20 @@ export default function AddConversation() {
 
   const handleClose = () => {
     setNewConvName('');
-    setUsers([]);
+    setUsersDisplay([]);
     setListOfUsersString('');
     setOpen(false);
   };
 
   const createConversation = () => {
     if (newConvName !== '') {
-      dispatch(postConversation(newConvName.trim(), users));
+      dispatch(postConversation(newConvName.trim(), usersDisplay));
       setNewConvName('');
-      setUsers([]);
+      setUsersDisplay([]);
       handleClose();
     }
     setNewConvName('');
-    setUsers([]);
+    setUsersDisplay([]);
     handleClose();
   };
 
@@ -71,8 +71,8 @@ export default function AddConversation() {
 
   const handleAddUser = () => {
     if (newUserName !== '') {
-      if (!users.find((x) => x === newUserName)) {
-        setUsers([...users, newUserName]);
+      if (!usersDisplay.find((x) => x === newUserName)) {
+        setUsersDisplay([...usersDisplay, newUserName]);
         setListOfUsersString([...listOfUsersString, ' ', newUserName, ',']);
       }
       setNewUserName('');

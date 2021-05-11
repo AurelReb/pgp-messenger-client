@@ -25,11 +25,10 @@ export default function SingleConversation({ conversation }) {
 
   return (
     <>
-      <ListItem button className={classes.convName}>
+      <ListItem button className={classes.convName} onClick={handleSelectConversation}>
         <ListItemText
           primary={conversation.name}
-          key="ConvName"
-          onClick={handleSelectConversation}
+          key="singleConversation"
         />
       </ListItem>
       <Divider />

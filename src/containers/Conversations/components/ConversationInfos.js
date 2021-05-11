@@ -13,9 +13,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { useDispatch } from '../../../config/store';
+import { useDispatch, useSelector } from '../../../config/store';
 
-import { deleteConversation } from '../../../config/reducers/conversations';
+import { deleteConversation, getOneConversation } from '../../../config/reducers/conversations';
 
 const useStyles = makeStyles(() => ({
   infoButton: {
@@ -35,18 +35,18 @@ export default function ConversationInfos({ conversation }) {
   const [openInfo, setOpenInfo] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [users, setUsers] = useState([]);
+  const convUsers = useSelector((state) => state.convUsers);
   const open = Boolean(anchorEl);
 
-  const handleUsersList = () => {
-    setUsers(conversation.users);
-  };
-
   const handleClickUsersList = (event) => {
+    dispatch(getOneConversation(conversation.id));
+    setUsers(convUsers);
     setAnchorEl(event.currentTarget);
   };
 
   const handleCloseUsersList = () => {
     setAnchorEl(null);
+    setUsers([]);
   };
 
   /* handle info dialog */
@@ -105,10 +105,9 @@ export default function ConversationInfos({ conversation }) {
               },
             }}
           >
-            {handleUsersList}
             {users.map((user) => (
               <MenuItem key={user} onClick={handleCloseUsersList}>
-                {user.name}
+                {user.username}
               </MenuItem>
             ))}
           </Menu>
