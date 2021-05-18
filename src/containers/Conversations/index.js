@@ -31,7 +31,7 @@ import {
   postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
-import { logout } from '../../config/reducers/authentication';
+import { logout, getCurrentUser } from '../../config/reducers/authentication';
 import AddConversation from './components/AddConversation';
 import ConversationInfos from './components/ConversationInfos';
 
@@ -132,6 +132,10 @@ const Conversations = () => {
 
   const dispatch = useDispatch();
 
+  const handleCurrUser = () => {
+    dispatch(getCurrentUser());
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -189,6 +193,7 @@ const Conversations = () => {
   useEffect(() => {
     if (conversations.length && !messages[currentConversation.id]) {
       dispatch(getConversationMessages(currentConversation.id));
+      handleCurrUser();
     }
   });
 

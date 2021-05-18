@@ -31,6 +31,7 @@ export default function MessageConversation({ message }) {
   const classes = useStyles();
 
   return (
+
     <Grid className={classes.messageContainer} item container direction="row-reverse">
       <Paper className={classes.message}>
         <Typography>

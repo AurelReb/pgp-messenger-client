@@ -1,3 +1,4 @@
+import conversationsApi from '../../api/conversationsApi';
 import userApi from '../../api/userApi';
 
 export const JUST_LOGGED_IN = 'JUST_LOGGED_IN';
@@ -7,6 +8,8 @@ export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILURE = 'REGISTER_USER_FAILURE';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
 export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
 
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const SET_ERROR = 'SET_ERROR';
@@ -48,10 +51,35 @@ const authenticationReducer = (draft, action) => {
       draft.profile = {};
       draft.isAuthenticated = false;
       break;
+    case GET_USER_SUCCESS:
+      draft.currUser = action.user;
+      break;
+    case GET_USER_FAILURE:
+      draft.error = action.error;
+      break;
 
     default:
       break;
   }
+};
+
+export const getCurrUserSuccess = (user) => {
+  return { type: GET_USER_SUCCESS, user };
+};
+
+export const getCurrUserFailure = (error) => {
+  return { type: GET_USER_FAILURE, error };
+};
+
+export const getCurrentUser = () => {
+  return (dispatch) => {
+    try {
+      const { data: user } = conversationsApi.getCurrentUser();
+      dispatch(getCurrUserSuccess(user));
+    } catch (error) {
+      dispatch(getCurrUserFailure(error.response));
+    }
+  };
 };
 
 const getTokenSuccess = (access, refresh, keepConnected) => {
