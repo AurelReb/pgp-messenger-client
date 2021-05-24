@@ -52,7 +52,8 @@ const authenticationReducer = (draft, action) => {
       draft.isAuthenticated = false;
       break;
     case GET_USER_SUCCESS:
-      draft.currUser = action.user;
+      draft.profile = action.user;
+      console.log(draft.profile);
       break;
     case GET_USER_FAILURE:
       draft.error = action.error;
@@ -72,9 +73,9 @@ export const getCurrUserFailure = (error) => {
 };
 
 export const getCurrentUser = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
-      const { data: user } = conversationsApi.getCurrentUser();
+      const { data: user } = await conversationsApi.getCurrentUser();
       dispatch(getCurrUserSuccess(user));
     } catch (error) {
       dispatch(getCurrUserFailure(error.response));

@@ -86,6 +86,8 @@ export default function ConversationInfos({ conversation }) {
         onClose={handleClickCloseInfo}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        fullWidth
+        maxWidth="sm"
       >
         <DialogTitle id="alert-dialog-title">{conversation && conversation.name}</DialogTitle>
         <DialogContent>
