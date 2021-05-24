@@ -2,8 +2,6 @@ import conversationsApi from '../../api/conversationsApi';
 
 const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
 const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
-const GET_ONE_CONVERSATION_SUCCESS = 'GET_ONE_CONVERSATION_SUCCESS';
-const GET_ONE_CONVERSATION_FAILURE = 'GET_ONE_CONVERSATION_FAILURE';
 const GET_CONVERSATION_MESSAGES_SUCCESS = 'GET_CONVERSATION_MESSAGES_SUCCESS';
 const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
@@ -24,14 +22,14 @@ const conversationsReducer = (draft, action) => {
       break;
 
     case GET_CONVERSATIONS_FAILURE:
-      // draft.conversations.error = action.error;
+      draft.error = action.error;
       break;
 
     case GET_CONVERSATION_MESSAGES_SUCCESS:
       draft.messages[action.conversationId] = action.messages;
       break;
     case GET_CONVERSATION_MESSAGES_FAILURE:
-      // draft.conversations.error = action.error;
+      draft.error = action.error;
       break;
     case CHANGE_CURRENT_CONVERSATION:
       draft.currentConversation = action.newConvId;
@@ -40,7 +38,7 @@ const conversationsReducer = (draft, action) => {
       draft.messages[action.conversationId].push(action.message);
       break;
     case POST_CONVERSATION_MESSAGES_FAILURE:
-      // handle error here
+      draft.error = action.error;
       break;
     case DELETE_CONVERSATION_SUCCESS:
       delete draft.messages[action.conversationId];
@@ -53,20 +51,14 @@ const conversationsReducer = (draft, action) => {
       }
       break;
     case DELETE_CONVERSATION_FAILURE:
-      // handle error here
+      draft.error = action.error;
       break;
     case POST_CONVERSATION_SUCCESS:
       draft.conversations.push(action.conversation);
       draft.currentConversation = action.conversation.id;
       break;
     case POST_CONVERSATION_FAILURE:
-      // handle error here
-      break;
-    case GET_ONE_CONVERSATION_SUCCESS:
-      draft.convUsers = action.conversation.users;
-      break;
-    case GET_ONE_CONVERSATION_FAILURE:
-      // handle error here
+      draft.error = action.error;
       break;
     default:
       break;
@@ -176,27 +168,6 @@ export const postConversation = (conversationName, usersList) => {
       dispatch(postConversationSuccess(conversation));
     } catch (error) {
       dispatch(postConversationFailure(error.response));
-    }
-  };
-};
-
-export const getOneConversationSuccess = (conversation) => {
-  return { type: GET_ONE_CONVERSATION_SUCCESS, conversation };
-};
-
-export const getOneConversationFailure = (error) => {
-  return { type: GET_ONE_CONVERSATION_FAILURE, error };
-};
-
-export const getOneConversation = (conversationId) => {
-  return async (dispatch) => {
-    try {
-      const { data: conversation } = await conversationsApi.getOneConversation(
-        conversationId,
-      );
-      dispatch(getOneConversationSuccess(conversation));
-    } catch (error) {
-      dispatch(getOneConversationFailure(error.response));
     }
   };
 };

@@ -53,12 +53,10 @@ const authenticationReducer = (draft, action) => {
       break;
     case GET_USER_SUCCESS:
       draft.profile = action.user;
-      console.log(draft.profile);
       break;
     case GET_USER_FAILURE:
       draft.error = action.error;
       break;
-
     default:
       break;
   }
