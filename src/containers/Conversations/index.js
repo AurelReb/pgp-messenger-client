@@ -125,7 +125,7 @@ const Conversations = () => {
   const [textFieldValue, setTextFieldValue] = useState('');
 
   const conversations = useSelector((state) => state.conversations);
-  const currentConversation = useSelector((state) =>
+  const currentConv = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
   const messages = useSelector((state) => state.messages);
   let dateBefore = new Date();
@@ -148,7 +148,7 @@ const Conversations = () => {
     e.preventDefault();
     const messageContent = textFieldValue.trim().replace('\n', '\n\n');
     if (messageContent !== '') {
-      dispatch(postConversationMessage(currentConversation.id, messageContent));
+      dispatch(postConversationMessage(currentConv.id, messageContent));
     }
     setTextFieldValue('');
   };
@@ -187,16 +187,16 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (conversations.length && !messages[currentConversation.id]) {
+    if (conversations.length && !messages[currentConv.id]) {
       dispatch(getCurrentUser());
-      dispatch(getConversationMessages(currentConversation.id));
+      dispatch(getConversationMessages(currentConv.id));
     }
   });
 
   useEffect(() => {
     const container = document.querySelector('#messages-container');
     container.scrollTo(0, container.scrollHeight);
-  }, [messages, currentConversation]);
+  }, [messages, currentConv]);
 
   const drawer = (
     <div className={classes.convBar}>
@@ -229,8 +229,8 @@ const Conversations = () => {
           </IconButton>
           <Typography variant="h6" noWrap>
             <ConversationInfos
-              conversation={currentConversation}
-              key={currentConversation && currentConversation.id}
+              conversation={currentConv}
+              key={currentConv && currentConv.id}
             />
           </Typography>
           <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
@@ -293,9 +293,9 @@ const Conversations = () => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid id="messages-container" className={classes.messageContent} container spacing={2} alignContent="flex-start">
-          {currentConversation
-            && messages[currentConversation.id]
-            && messages[currentConversation.id].map((message, index) => (
+          {currentConv
+            && messages[currentConv.id]
+            && messages[currentConv.id].map((message, index) => (
               <>
                 {messagesDate(message, index)}
                 <MessageConversation message={message} key={message.id} />

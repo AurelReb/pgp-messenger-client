@@ -86,6 +86,7 @@ export default function ConversationInfos({ conversation }) {
         onClose={handleClickCloseInfo}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        keepMounted
         fullWidth
         maxWidth="sm"
       >
@@ -106,8 +107,8 @@ export default function ConversationInfos({ conversation }) {
               },
             }}
           >
-            {users.map((user) => (
-              <MenuItem key={user.username} onClick={handleCloseUsersList}>
+            {users.map((user, index) => (
+              <MenuItem key={user.username + JSON.stringify(index)} onClick={handleCloseUsersList}>
                 {user.username}
               </MenuItem>
             ))}
