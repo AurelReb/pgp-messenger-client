@@ -49,6 +49,7 @@ const authenticationReducer = (draft, action) => {
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
       draft.profile = {};
+      draft.conversations = [];
       draft.isAuthenticated = false;
       break;
     case GET_USER_SUCCESS:
