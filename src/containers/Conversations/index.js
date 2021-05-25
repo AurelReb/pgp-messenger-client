@@ -128,16 +128,9 @@ const Conversations = () => {
   const currentConversation = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
   const messages = useSelector((state) => state.messages);
-  const currUser = useSelector((state) => state.profile);
   let dateBefore = new Date();
 
   const dispatch = useDispatch();
-
-  const handleCurrUser = () => {
-    if (currUser.username == null) {
-      dispatch(getCurrentUser());
-    }
-  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -195,6 +188,7 @@ const Conversations = () => {
 
   useEffect(() => {
     if (conversations.length && !messages[currentConversation.id]) {
+      dispatch(getCurrentUser());
       dispatch(getConversationMessages(currentConversation.id));
     }
   });
@@ -303,7 +297,6 @@ const Conversations = () => {
             && messages[currentConversation.id]
             && messages[currentConversation.id].map((message, index) => (
               <>
-                {handleCurrUser()}
                 {messagesDate(message, index)}
                 <MessageConversation message={message} key={message.id} />
               </>
