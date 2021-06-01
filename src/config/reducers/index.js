@@ -16,8 +16,6 @@ const reducer = (state, action) => {
         authenticationReducer(draft, action);
         break;
     }
-
-    draft = conversationsReducer(draft, action);
   });
 };
 

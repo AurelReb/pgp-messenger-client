@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -28,10 +28,12 @@ import SingleConversation from './components/SingleConversation';
 import { useDispatch, useSelector } from '../../config/store';
 import {
   getConversationMessages,
-  getConversations,
+  postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
-import { logout } from '../../config/reducers/authentication';
+import { logout, getCurrentUser } from '../../config/reducers/authentication';
+import AddConversation from './components/AddConversation';
+import ConversationInfos from './components/ConversationInfos';
 
 const drawerWidth = 240;
 
@@ -76,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarColor: {
     backgroundColor: theme.palette.primary.dark,
+    height: '60px',
   },
   textInput: {
     flex: '9',
@@ -87,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
   sendButton: {
     padding: '10px',
     marginLeft: '10px',
-
   },
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
@@ -97,17 +99,36 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     color: 'white',
   },
+  dateBubble: {
+    padding: '10px 16px',
+    borderRadius: '18px',
+    backgroundColor: theme.palette.action.hover,
+    margin: 'auto',
+  },
+  dividerBottom: {
+    height: 'calc(100% - 90px - 60px )',
+    overflowY: 'auto',
+  },
+  convBar: {
+    height: '100vh',
+  },
+  addButtonCenter: {
+    textAlign: 'center',
+  },
 }));
 
 const Conversations = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState('');
+
   const conversations = useSelector((state) => state.conversations);
-  const currentConversation = useSelector((state) =>
+  const currentConv = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
   const messages = useSelector((state) => state.messages);
+  let dateBefore = new Date();
 
   const dispatch = useDispatch();
 
@@ -119,24 +140,77 @@ const Conversations = () => {
     dispatch(logout);
   };
 
+  const handleTextFieldChange = (e) => {
+    setTextFieldValue(e.target.value);
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    const messageContent = textFieldValue.trim().replace('\n', '\n\n');
+    if (messageContent !== '') {
+      dispatch(postConversationMessage(currentConv.id, messageContent));
+    }
+    setTextFieldValue('');
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.charCode === 13 && !(e.shiftKey || e.ctrlKey)) {
+      handleSendMessage(e);
+    }
+  };
+
+  const messagesDate = (message, index) => {
+    if (index === 0) {
+      dateBefore = new Date(message.created_at * 1000);
+      return (
+        <Paper className={classes.dateBubble}>
+          <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
+            {new Date(message.created_at * 1000).toLocaleDateString()}
+          </Typography>
+        </Paper>
+      );
+    }
+
+    const currDate = new Date(message.created_at * 1000);
+    if (dateBefore.toLocaleDateString() !== currDate.toLocaleDateString()) {
+      dateBefore = currDate;
+      return (
+        <Paper className={classes.dateBubble}>
+          <Typography className={classes.dateTypo} color="textSecondary" variant="caption" align="right">
+            {currDate.toLocaleDateString()}
+          </Typography>
+        </Paper>
+      );
+    }
+
+    return null;
+  };
+
   useEffect(() => {
-    if (Object.keys(conversations).length === 0) {
-      dispatch(getConversations());
-    } else if (!messages[currentConversation.id]) {
-      dispatch(getConversationMessages(currentConversation.id));
+    if (conversations.length && !messages[currentConv.id]) {
+      dispatch(getCurrentUser());
+      dispatch(getConversationMessages(currentConv.id));
     }
   });
 
+  useEffect(() => {
+    const container = document.querySelector('#messages-container');
+    container.scrollTo(0, container.scrollHeight);
+  }, [messages, currentConv]);
+
   const drawer = (
-    <div>
+    <div className={classes.convBar}>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
+      <List className={classes.dividerBottom}>
         {conversations.map((conversation) => (
           <SingleConversation conversation={conversation} key={conversation.id} />
         ))}
       </List>
-      <Divider />
+      <Grid className={classes.addButtonCenter}>
+        <Divider />
+        <AddConversation />
+      </Grid>
     </div>
   );
 
@@ -154,7 +228,10 @@ const Conversations = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {currentConversation && currentConversation.name}
+            <ConversationInfos
+              conversation={currentConv}
+              key={currentConv && currentConv.id}
+            />
           </Typography>
           <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
             <IconButton
@@ -168,6 +245,7 @@ const Conversations = () => {
               </Grid>
             </IconButton>
           </Tooltip>
+
           <Tooltip title="Logout">
             <IconButton
               variant="contained"
@@ -207,35 +285,44 @@ const Conversations = () => {
             variant="permanent"
             open
           >
+            {/* ICI L'ESPACE EN HAUT A GAUCHE ! */}
             {drawer}
           </Drawer>
         </Hidden>
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid className={classes.messageContent} container spacing={2}>
-          {currentConversation
-            && messages[currentConversation.id]
-            && messages[currentConversation.id].map((message) => (
-              <MessageConversation message={message} key={message.id} />
+        <Grid id="messages-container" className={classes.messageContent} container spacing={2} alignContent="flex-start">
+          {currentConv
+            && messages[currentConv.id]
+            && messages[currentConv.id].map((message, index) => (
+              <>
+                {messagesDate(message, index)}
+                <MessageConversation message={message} key={message.id} />
+              </>
             ))}
         </Grid>
         <Grid>
           <Paper className={classes.gridSend}>
-            <form className={classes.textInput} noValidate autoComplete="off">
+            <form className={classes.textInput} noValidate autoComplete="off" onSubmit={handleSendMessage}>
               <TextField
                 id="outlined-secondary"
+                onChange={handleTextFieldChange}
+                onKeyPress={handleEnterKey}
                 label="Enter your message here"
                 variant="outlined"
+                value={textFieldValue}
                 multiline
                 color="primary"
-                fullWidth="true"
+                fullWidth
+                name="message"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>
                       <Button
                         variant="contained"
                         color="primary"
+                        type="submit"
                         className={classes.sendButton}
                         endIcon={
                           <ArrowForwardIosRounded>send</ArrowForwardIosRounded>

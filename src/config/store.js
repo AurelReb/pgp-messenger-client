@@ -9,6 +9,7 @@ const initialState = {
   conversations: [],
   currentConversation: null,
   messages: {},
+  convUsers: [],
   // Get user's device theme mode (light/dark)
   darkTheme:
     localStorage.darkTheme === 'true'
@@ -24,13 +25,11 @@ const useValue = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const dispatchWithCallback = (cycle) => (dispatcher) => {
     if (typeof dispatcher === 'function') dispatcher(dispatchWithCallback(false));
-    else {
-      if (!cycle)
-        checkAuthMiddleware(state, dispatchWithCallback(true), dispatcher);
-      else dispatch(dispatcher);
+    else if (!cycle) {
+      checkAuthMiddleware(state, dispatchWithCallback(true), dispatcher);
       // eslint-disable-next-line no-console
       console.log(state);
-    }
+    } else dispatch(dispatcher);
   };
   return [state, dispatchWithCallback(false)];
 };
