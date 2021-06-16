@@ -31,7 +31,7 @@ import {
   postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
-import { logout, getCurrentUser } from '../../config/reducers/authentication';
+import { logout } from '../../config/reducers/authentication';
 import AddConversation from './components/AddConversation';
 import ConversationInfos from './components/ConversationInfos';
 
@@ -247,15 +247,12 @@ const Conversations = () => {
           </Tooltip>
 
           <Tooltip title="Logout">
-            <IconButton
-              variant="contained"
-              type="submit"
+            <Fab
+              color="secondary"
               onClick={handleLogout}
             >
-              <Fab color="secondary">
-                <ExitToAppIcon>send</ExitToAppIcon>
-              </Fab>
-            </IconButton>
+              <ExitToAppIcon>send</ExitToAppIcon>
+            </Fab>
           </Tooltip>
         </Toolbar>
       </AppBar>
@@ -296,10 +293,10 @@ const Conversations = () => {
           {currentConv
             && messages[currentConv.id]
             && messages[currentConv.id].map((message, index) => (
-              <>
+              <React.Fragment key={message.id}>
                 {messagesDate(message, index)}
-                <MessageConversation message={message} key={message.id} />
-              </>
+                <MessageConversation message={message} />
+              </React.Fragment>
             ))}
         </Grid>
         <Grid>

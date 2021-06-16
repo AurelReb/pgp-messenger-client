@@ -19,13 +19,16 @@ import { useDispatch } from '../../../config/store';
 import { postConversation } from '../../../config/reducers/conversations';
 
 export default function AddConversation() {
-  const useStyles = makeStyles(() => ({
+  const useStyles = makeStyles((theme) => ({
     sendButton: {
       padding: '10px',
       marginLeft: '10px',
     },
     userList: {
       marginTop: '10px',
+    },
+    button: {
+      margin: theme.spacing(1),
     },
   }));
 
@@ -82,14 +85,13 @@ export default function AddConversation() {
   return (
     <>
       <Tooltip title="Add a new conversation">
-        <IconButton
-          variant="contained"
+        <Fab
+          color="secondary"
           onClick={handleClickOpen}
+          className={classes.button}
         >
-          <Fab color="secondary">
-            <AddIcon />
-          </Fab>
-        </IconButton>
+          <AddIcon />
+        </Fab>
       </Tooltip>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New conversation</DialogTitle>
