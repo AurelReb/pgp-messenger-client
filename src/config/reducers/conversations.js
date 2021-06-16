@@ -2,6 +2,7 @@ import conversationsApi from '../../api/conversationsApi';
 
 const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
 const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
+const GET_CONVERSATION_MESSAGES = 'GET_CONVERSATION_MESSAGES';
 const GET_CONVERSATION_MESSAGES_SUCCESS = 'GET_CONVERSATION_MESSAGES_SUCCESS';
 const GET_CONVERSATION_MESSAGES_FAILURE = 'GET_CONVERSATION_MESSAGES_FAILURE';
 const CHANGE_CURRENT_CONVERSATION = 'CHANGE_CURRENT_CONVERSATION';
@@ -25,10 +26,15 @@ const conversationsReducer = (draft, action) => {
       draft.error = action.error;
       break;
 
+    case GET_CONVERSATION_MESSAGES:
+      draft.messagesLoading = true;
+      break;
     case GET_CONVERSATION_MESSAGES_SUCCESS:
+      draft.messagesLoading = false;
       draft.messages[action.conversationId] = action.messages;
       break;
     case GET_CONVERSATION_MESSAGES_FAILURE:
+      draft.messagesLoading = false;
       draft.error = action.error;
       break;
     case CHANGE_CURRENT_CONVERSATION:
@@ -96,6 +102,7 @@ export const getConversationMessages = (id) => {
       const { data: messages } = await conversationsApi.getConversationMessages(
         id,
       );
+      dispatch({ type: GET_CONVERSATION_MESSAGES });
       dispatch(getConversationMessagesSuccess(messages, id));
     } catch (error) {
       dispatch(getConversationMessagesFailure(error.response));
