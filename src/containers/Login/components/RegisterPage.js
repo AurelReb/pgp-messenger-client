@@ -212,7 +212,7 @@ function RegisterPage() {
                 variant="outlined"
                 color="primary"
                 multiline
-                rows={1}
+                rows={3}
                 value={pgpPublic}
                 onChange={handleChangePgpPublic}
                 error={Boolean(error)}
@@ -226,7 +226,7 @@ function RegisterPage() {
                 variant="outlined"
                 color="primary"
                 multiline
-                rows={1}
+                rows={3}
                 value={pgpPrivate}
                 onChange={handleChangePgpPrivate}
                 fullWidth
