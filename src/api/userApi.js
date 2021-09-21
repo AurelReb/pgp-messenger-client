@@ -21,6 +21,13 @@ const registerUser = (username, password, pgpPublic, pgpPrivate, twoFactorAuth) 
   });
 };
 
-const userApi = { registerUser, getUserToken, refreshUserToken };
+const getUserInfo = () => httpClient.get(USER_API_URL);
+
+const userApi = {
+  registerUser,
+  getUserToken,
+  refreshUserToken,
+  getUserInfo,
+};
 
 export default userApi;

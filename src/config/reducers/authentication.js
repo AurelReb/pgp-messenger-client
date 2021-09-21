@@ -1,4 +1,3 @@
-import conversationsApi from '../../api/conversationsApi';
 import userApi from '../../api/userApi';
 
 export const JUST_LOGGED_IN = 'JUST_LOGGED_IN';
@@ -74,7 +73,7 @@ export const getCurrUserFailure = (error) => {
 export const getCurrentUser = () => {
   return async (dispatch) => {
     try {
-      const { data: user } = await conversationsApi.getCurrentUser();
+      const { data: user } = await userApi.getUserInfo();
       dispatch(getCurrUserSuccess(user));
     } catch (error) {
       dispatch(getCurrUserFailure(error.response));

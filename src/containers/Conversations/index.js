@@ -25,13 +25,13 @@ import Brightness3Icon from '@material-ui/icons/Brightness3';
 import MessageConversation from './components/MessageConversation';
 import SingleConversation from './components/SingleConversation';
 
-import { useDispatch, useSelector } from '../../config/store';
+import { useDispatch, useSelector, useTrackedState } from '../../config/store';
 import {
   getConversationMessages,
   postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
-import { logout, getCurrentUser } from '../../config/reducers/authentication';
+import { logout } from '../../config/reducers/authentication';
 import AddConversation from './components/AddConversation';
 import ConversationInfos from './components/ConversationInfos';
 
@@ -124,10 +124,9 @@ const Conversations = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState('');
 
-  const conversations = useSelector((state) => state.conversations);
+  const { conversations, messages, messagesLoading } = useTrackedState();
   const currentConv = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
-  const messages = useSelector((state) => state.messages);
   let dateBefore = new Date();
 
   const dispatch = useDispatch();
@@ -187,11 +186,10 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (conversations.length && !messages[currentConv.id]) {
-      dispatch(getCurrentUser());
+    if (conversations.length && !messages[currentConv.id] && !messagesLoading) {
       dispatch(getConversationMessages(currentConv.id));
     }
-  });
+  }, [currentConv, messages, conversations]);
 
   useEffect(() => {
     const container = document.querySelector('#messages-container');
@@ -247,15 +245,12 @@ const Conversations = () => {
           </Tooltip>
 
           <Tooltip title="Logout">
-            <IconButton
-              variant="contained"
-              type="submit"
+            <Fab
+              color="secondary"
               onClick={handleLogout}
             >
-              <Fab color="secondary">
-                <ExitToAppIcon>send</ExitToAppIcon>
-              </Fab>
-            </IconButton>
+              <ExitToAppIcon>send</ExitToAppIcon>
+            </Fab>
           </Tooltip>
         </Toolbar>
       </AppBar>
@@ -296,10 +291,10 @@ const Conversations = () => {
           {currentConv
             && messages[currentConv.id]
             && messages[currentConv.id].map((message, index) => (
-              <>
+              <React.Fragment key={message.id}>
                 {messagesDate(message, index)}
-                <MessageConversation message={message} key={message.id} />
-              </>
+                <MessageConversation message={message} />
+              </React.Fragment>
             ))}
         </Grid>
         <Grid>

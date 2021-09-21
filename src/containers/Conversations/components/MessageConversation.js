@@ -37,11 +37,9 @@ export default function MessageConversation({ message }) {
     return (
       <Grid className={classes.messageContainer} item container direction="row-reverse">
         <Paper className={classes.message}>
-          <Typography>
-            <HighlightedMarkdown>
-              {message.message}
-            </HighlightedMarkdown>
-          </Typography>
+          <HighlightedMarkdown>
+            {message.message}
+          </HighlightedMarkdown>
           <Typography className={classes.dateTypo} variant="caption" align="right">
             {new Date(message.created_at * 1000).toLocaleTimeString()}
           </Typography>

@@ -107,8 +107,8 @@ export default function ConversationInfos({ conversation }) {
               },
             }}
           >
-            {users.map((user, index) => (
-              <MenuItem key={user.username + JSON.stringify(index)} onClick={handleCloseUsersList}>
+            {users.map((user) => (
+              <MenuItem key={user.username} onClick={handleCloseUsersList}>
                 {user.username}
               </MenuItem>
             ))}
@@ -151,5 +151,9 @@ export default function ConversationInfos({ conversation }) {
   );
 }
 ConversationInfos.propTypes = {
-  conversation: PropTypes.object.isRequired,
+  conversation: PropTypes.object,
+};
+
+ConversationInfos.defaultProps = {
+  conversation: null,
 };
