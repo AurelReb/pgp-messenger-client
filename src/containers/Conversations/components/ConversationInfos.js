@@ -81,9 +81,11 @@ export default function ConversationInfos({ conversation }) {
   return (
     <>
       {conversation && conversation.name}
+      {conversation && (
       <IconButton className={classes.infoButton} aria-label="info" onClick={handleClickOpenInfo}>
         <InfoIcon />
       </IconButton>
+      )}
       {/* Dialog for info button */}
       <Dialog
         open={openInfo}
