@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import HighlightedMarkdown from '../../../components/HighlightedMarkdown';
+import { useSelector } from '../../../config/store';
 
 const useStyles = makeStyles((theme) => ({
   message: {
@@ -30,8 +31,27 @@ const useStyles = makeStyles((theme) => ({
 export default function MessageConversation({ message }) {
   const classes = useStyles();
 
+  const user = useSelector((state) => state.profile);
+
+  if (user.username === message.user) {
+    return (
+      <Grid className={classes.messageContainer} item container direction="row-reverse">
+        <Paper className={classes.message}>
+          <Typography>
+            <HighlightedMarkdown>
+              {message.message}
+            </HighlightedMarkdown>
+          </Typography>
+          <Typography className={classes.dateTypo} variant="caption" align="right">
+            {new Date(message.created_at * 1000).toLocaleTimeString()}
+          </Typography>
+        </Paper>
+      </Grid>
+    );
+  }
+
   return (
-    <Grid className={classes.messageContainer} item container direction="row-reverse">
+    <Grid className={classes.messageContainer} item container direction="row">
       <Paper className={classes.message}>
         <Typography>
           <HighlightedMarkdown>
@@ -39,6 +59,8 @@ export default function MessageConversation({ message }) {
           </HighlightedMarkdown>
         </Typography>
         <Typography className={classes.dateTypo} variant="caption" align="right">
+          {message.user}
+          {' at '}
           {new Date(message.created_at * 1000).toLocaleTimeString()}
         </Typography>
       </Paper>

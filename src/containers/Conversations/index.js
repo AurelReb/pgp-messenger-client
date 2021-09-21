@@ -27,10 +27,13 @@ import SingleConversation from './components/SingleConversation';
 
 import { useDispatch, useSelector } from '../../config/store';
 import {
-  getConversationMessages, postConversationMessage,
+  getConversationMessages,
+  postConversationMessage,
 } from '../../config/reducers/conversations';
 import { toggleDarkTheme } from '../../config/reducers';
-import { logout } from '../../config/reducers/authentication';
+import { logout, getCurrentUser } from '../../config/reducers/authentication';
+import AddConversation from './components/AddConversation';
+import ConversationInfos from './components/ConversationInfos';
 
 const drawerWidth = 240;
 
@@ -75,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarColor: {
     backgroundColor: theme.palette.primary.dark,
+    height: '60px',
   },
   textInput: {
     flex: '9',
@@ -86,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
   sendButton: {
     padding: '10px',
     marginLeft: '10px',
-
   },
   messageContent: {
     height: 'calc(100% - 64px - 50px )',
@@ -102,6 +105,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.action.hover,
     margin: 'auto',
   },
+  dividerBottom: {
+    height: 'calc(100% - 90px - 60px )',
+    overflowY: 'auto',
+  },
+  convBar: {
+    height: '100vh',
+  },
+  addButtonCenter: {
+    textAlign: 'center',
+  },
 }));
 
 const Conversations = () => {
@@ -110,8 +123,9 @@ const Conversations = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState('');
+
   const conversations = useSelector((state) => state.conversations);
-  const currentConversation = useSelector((state) =>
+  const currentConv = useSelector((state) =>
     state.conversations.find((x) => x.id === state.currentConversation));
   const messages = useSelector((state) => state.messages);
   let dateBefore = new Date();
@@ -134,7 +148,7 @@ const Conversations = () => {
     e.preventDefault();
     const messageContent = textFieldValue.trim().replace('\n', '\n\n');
     if (messageContent !== '') {
-      dispatch(postConversationMessage(currentConversation.id, messageContent));
+      dispatch(postConversationMessage(currentConv.id, messageContent));
     }
     setTextFieldValue('');
   };
@@ -173,26 +187,30 @@ const Conversations = () => {
   };
 
   useEffect(() => {
-    if (conversations.length && !messages[currentConversation.id]) {
-      dispatch(getConversationMessages(currentConversation.id));
+    if (conversations.length && !messages[currentConv.id]) {
+      dispatch(getCurrentUser());
+      dispatch(getConversationMessages(currentConv.id));
     }
   });
 
   useEffect(() => {
     const container = document.querySelector('#messages-container');
     container.scrollTo(0, container.scrollHeight);
-  }, [messages, currentConversation]);
+  }, [messages, currentConv]);
 
   const drawer = (
-    <div>
+    <div className={classes.convBar}>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
+      <List className={classes.dividerBottom}>
         {conversations.map((conversation) => (
           <SingleConversation conversation={conversation} key={conversation.id} />
         ))}
       </List>
-      <Divider />
+      <Grid className={classes.addButtonCenter}>
+        <Divider />
+        <AddConversation />
+      </Grid>
     </div>
   );
 
@@ -210,7 +228,10 @@ const Conversations = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {currentConversation && currentConversation.name}
+            <ConversationInfos
+              conversation={currentConv}
+              key={currentConv && currentConv.id}
+            />
           </Typography>
           <Tooltip title={theme.palette.type === 'dark' ? 'Toggle light theme' : 'Toggle dark theme'}>
             <IconButton
@@ -224,6 +245,7 @@ const Conversations = () => {
               </Grid>
             </IconButton>
           </Tooltip>
+
           <Tooltip title="Logout">
             <IconButton
               variant="contained"
@@ -263,6 +285,7 @@ const Conversations = () => {
             variant="permanent"
             open
           >
+            {/* ICI L'ESPACE EN HAUT A GAUCHE ! */}
             {drawer}
           </Drawer>
         </Hidden>
@@ -270,9 +293,9 @@ const Conversations = () => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid id="messages-container" className={classes.messageContent} container spacing={2} alignContent="flex-start">
-          {currentConversation
-            && messages[currentConversation.id]
-            && messages[currentConversation.id].map((message, index) => (
+          {currentConv
+            && messages[currentConv.id]
+            && messages[currentConv.id].map((message, index) => (
               <>
                 {messagesDate(message, index)}
                 <MessageConversation message={message} key={message.id} />
