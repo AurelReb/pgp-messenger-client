@@ -146,7 +146,7 @@ const Conversations = () => {
   const handleSendMessage = (e) => {
     e.preventDefault();
     const messageContent = textFieldValue.trim().replace('\n', '\n\n');
-    if (messageContent !== '') {
+    if (currentConv != null && messageContent !== '') {
       dispatch(postConversationMessage(currentConv.id, messageContent));
     }
     setTextFieldValue('');

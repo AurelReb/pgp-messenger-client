@@ -40,8 +40,10 @@ export default function ConversationInfos({ conversation }) {
   /* handle list of users */
 
   const handleClickUsersList = (event) => {
-    setUsers(conversation.users);
-    setAnchorEl(event.currentTarget);
+    if (conversation != null) {
+      setUsers(conversation.users);
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleCloseUsersList = () => {
@@ -70,8 +72,10 @@ export default function ConversationInfos({ conversation }) {
   };
 
   const handleCloseDelete = () => {
-    dispatch(deleteConversation(conversation.id));
-    setOpenDelete(false);
+    if (conversation != null) {
+      dispatch(deleteConversation(conversation.id));
+      setOpenDelete(false);
+    }
   };
 
   return (
