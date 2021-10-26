@@ -14,7 +14,7 @@ import Conversations from './containers/Conversations';
 import StateProvider, { useDispatch, useSelector, useTrackedState } from './config/store';
 import { getMuiThemeConfig } from './config/theming';
 import routerHistory from './config/history';
-import { JUST_LOGGED_IN } from './config/reducers/authentication';
+import { JUST_LOGGED_IN, refreshToken } from './config/reducers/authentication';
 
 const ProtectedRoute = (props) => {
   const isAuthenticated = useSelector((state) => state.isAuthenticated);
@@ -39,6 +39,13 @@ function AppRouter() {
   }, [pathname, history]);
 
   const onComponentMount = () => {
+    if (localStorage.accessTokenValidityTimestamp > Date.now()) {
+      setTimeout(
+        () => dispatch(refreshToken()),
+        localStorage.accessTokenValidityTimestamp - Date.now(),
+      );
+    } else if (localStorage.refreshTokenValidityTimestamp > Date.now())
+      dispatch(refreshToken());
     if (isAuthenticated)
       dispatch({ type: JUST_LOGGED_IN });
     mounted.current = true;

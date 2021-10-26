@@ -5,6 +5,7 @@ import Markdown from 'markdown-to-jsx';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
+import { Typography } from '@material-ui/core';
 import markdownOptions from '../config/markdown';
 
 function HighlightedMarkdown({ children }) {
@@ -17,9 +18,9 @@ function HighlightedMarkdown({ children }) {
   }, [children]);
 
   return (
-    <div ref={rootRef}>
+    <Typography component="span" ref={rootRef}>
       <Markdown options={markdownOptions}>{children}</Markdown>
-    </div>
+    </Typography>
   );
 }
 

@@ -1,5 +1,14 @@
 import history from './history';
-import { GET_TOKEN_SUCCESS, JUST_LOGGED_IN, logout, LOGOUT, refreshToken } from './reducers/authentication';
+import {
+  LOGOUT,
+  GET_TOKEN_SUCCESS,
+  JUST_LOGGED_IN,
+  REGISTER_USER_SUCCESS,
+  REFRESH_TOKEN_SUCCESS,
+  getCurrentUser,
+  refreshToken,
+  logout,
+} from './reducers/authentication';
 import { getConversations } from './reducers/conversations';
 
 function stopAllIntervals() {
@@ -35,9 +44,10 @@ function dispatchInitialGets(state, dispatch) {
   if (
     (!localStorage.accessTokenValidityTimestamp
       || localStorage.accessTokenValidityTimestamp > Date.now())
-      && !state.conversations.length
+      && !state.profile.username
   ) {
     stopAllIntervals();
+    dispatch(getCurrentUser());
     dispatch(getConversations());
   }
   if (localStorage.rememberLogin && localStorage.refreshTokenValidityTimestamp > Date.now()) {
@@ -49,7 +59,7 @@ const checkAuthMiddleware = (state, next, action) => {
   switch (action.type) {
     case JUST_LOGGED_IN:
     case GET_TOKEN_SUCCESS:
-    // case REGISTER_SUCCESS:
+    case REGISTER_USER_SUCCESS:
       history.replace('/');
       dispatchInitialGets(state, next);
       break;
@@ -60,6 +70,10 @@ const checkAuthMiddleware = (state, next, action) => {
     case LOGOUT:
       stopAllIntervals();
       history.push('/login');
+      break;
+
+    case REFRESH_TOKEN_SUCCESS:
+      dispatchInitialGets(state, next);
       break;
 
     default:

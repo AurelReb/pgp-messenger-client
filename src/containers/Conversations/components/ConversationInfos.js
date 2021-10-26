@@ -40,8 +40,10 @@ export default function ConversationInfos({ conversation }) {
   /* handle list of users */
 
   const handleClickUsersList = (event) => {
-    setUsers(conversation.users);
-    setAnchorEl(event.currentTarget);
+    if (conversation != null) {
+      setUsers(conversation.users);
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleCloseUsersList = () => {
@@ -70,16 +72,20 @@ export default function ConversationInfos({ conversation }) {
   };
 
   const handleCloseDelete = () => {
-    dispatch(deleteConversation(conversation.id));
-    setOpenDelete(false);
+    if (conversation != null) {
+      dispatch(deleteConversation(conversation.id));
+      setOpenDelete(false);
+    }
   };
 
   return (
     <>
       {conversation && conversation.name}
+      {conversation && (
       <IconButton className={classes.infoButton} aria-label="info" onClick={handleClickOpenInfo}>
         <InfoIcon />
       </IconButton>
+      )}
       {/* Dialog for info button */}
       <Dialog
         open={openInfo}
@@ -107,8 +113,8 @@ export default function ConversationInfos({ conversation }) {
               },
             }}
           >
-            {users.map((user, index) => (
-              <MenuItem key={user.username + JSON.stringify(index)} onClick={handleCloseUsersList}>
+            {users.map((user) => (
+              <MenuItem key={user.username} onClick={handleCloseUsersList}>
                 {user.username}
               </MenuItem>
             ))}
@@ -151,5 +157,9 @@ export default function ConversationInfos({ conversation }) {
   );
 }
 ConversationInfos.propTypes = {
-  conversation: PropTypes.object.isRequired,
+  conversation: PropTypes.object,
+};
+
+ConversationInfos.defaultProps = {
+  conversation: null,
 };

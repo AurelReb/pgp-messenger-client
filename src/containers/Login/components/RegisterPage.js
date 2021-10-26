@@ -14,7 +14,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from '../../../config/store';
+
 import { registerUser, setError } from '../../../config/reducers/authentication';
+import Encryption from './EncryptionDialog';
 
 import logo from '../../../logo.f08';
 
@@ -87,20 +89,22 @@ const useStyles = makeStyles((theme) => ({
 function RegisterPage() {
   const mounted = useRef(false);
   const classes = useStyles();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [pgpPublic, setPgpPublic] = useState('');
   const [pgpPrivate, setPgpPrivate] = useState('');
   const [twoFactorAuth, setTwoFactorAuth] = useState(false);
-  const error = useSelector((state) => state.error);
   const [keepConnected, setKeepConnected] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.error);
 
   const handleChangeKeepConnected = (e) => {
     setKeepConnected(e.target.checked);
   };
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!mounted.current) mounted.current = true;
@@ -132,7 +136,7 @@ function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword)
+    if (password === confirmPassword) {
       dispatch(registerUser(
         username,
         password,
@@ -141,7 +145,7 @@ function RegisterPage() {
         twoFactorAuth,
         keepConnected,
       ));
-    else dispatch(setError('Passwords doesn\'t match'));
+    } else dispatch(setError('Passwords doesn\'t match'));
   };
 
   return (
@@ -172,7 +176,6 @@ function RegisterPage() {
             <FormControl margin="normal">
               <TextField
                 required
-                id="outlined-password-input"
                 label="Password"
                 type="password"
                 autoComplete="current-password"
@@ -186,7 +189,6 @@ function RegisterPage() {
             <FormControl margin="normal">
               <TextField
                 required
-                id="outlined-password-input"
                 label="Confirm Password"
                 type="password"
                 autoComplete="current-password"
@@ -197,6 +199,11 @@ function RegisterPage() {
                 error={Boolean(error)}
               />
             </FormControl>
+            <Encryption
+              setPgpPrivate={setPgpPrivate}
+              setPgpPublic={setPgpPublic}
+              username={username}
+            />
             <FormControl margin="normal">
               <TextField
                 required
@@ -204,10 +211,12 @@ function RegisterPage() {
                 label="Pgp Public Key"
                 variant="outlined"
                 color="primary"
-                multiline="true"
+                multiline
+                rows={3}
                 value={pgpPublic}
                 onChange={handleChangePgpPublic}
                 error={Boolean(error)}
+                fullWidth
               />
             </FormControl>
             <FormControl margin="normal">
@@ -216,9 +225,11 @@ function RegisterPage() {
                 label="Pgp Private Key"
                 variant="outlined"
                 color="primary"
-                multiline="true"
+                multiline
+                rows={3}
                 value={pgpPrivate}
                 onChange={handleChangePgpPrivate}
+                fullWidth
               />
             </FormControl>
             <FormControl margin="normal">
@@ -264,7 +275,6 @@ function RegisterPage() {
           <Link to="/login" className={classes.login}>
             <center>
               Already have an account? Sign In
-              {' '}
               <br />
             </center>
           </Link>
